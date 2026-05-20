@@ -15,6 +15,13 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@the-tractor-store/packages": ["packages/src/index.ts"],
+      "@the-tractor-store/shared-catalog": [
+        "packages/shared-catalog/src/index.ts"
+      ],
+      "@the-tractor-store/ts-design-system": [
+        "packages/ts-design-system/src/index.ts"
+      ],
       "mfe_checkout/Routes": [
         "packages/mfe-checkout/src/app/remote-entry/entry.routes.ts"
       ],
