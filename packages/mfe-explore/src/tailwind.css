@@ -1,0 +1,6 @@
+@import "tailwindcss" source("./app");
+
+/*
+  MFE-specific theme overrides can go here.
+  Normally, MFEs should inherit design tokens, but Tailwind v4 allows local overrides if needed.
+*/
