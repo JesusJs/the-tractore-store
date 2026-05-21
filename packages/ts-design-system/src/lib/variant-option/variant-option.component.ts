@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-ts-design-system',
+  selector: 'lib-button',
   imports: [CommonModule],
-  templateUrl: './ts-design-system.component.html',
-  styleUrl: './ts-design-system.component.scss',
+  templateUrl: './variant-option.component.html',
+  styleUrl: './variant-option.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TsDesignSystemComponent {}
+export class ButtonComponent {}
