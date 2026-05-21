@@ -1,1 +1,2 @@
-export * from './lib/shared-catalog';
+export * from './models/catalog.models';
+export * from './events/catalog.events';
