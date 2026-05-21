@@ -11,43 +11,6 @@
 // ============================================
 
 // === Design Tokens (SCSS variables) ===
-$font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
-$border-radius-base: 0.5rem;
-$transition-base: all 0.2s ease-in-out;
 
-// === Base Styles ===
-html, body {
-  font-family: $font-family-base;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import '../../../packages/design-tokens/src/index.css';
 
-// === SCSS Mixins (available for component .scss files) ===
-// These demonstrate SCSS power alongside Tailwind utilities
-
-// Example: responsive breakpoint mixin
-@mixin respond-to($breakpoint) {
-  @if $breakpoint == 'sm' {
-    @media (min-width: 640px) { @content; }
-  } @else if $breakpoint == 'md' {
-    @media (min-width: 768px) { @content; }
-  } @else if $breakpoint == 'lg' {
-    @media (min-width: 1024px) { @content; }
-  } @else if $breakpoint == 'xl' {
-    @media (min-width: 1280px) { @content; }
-  }
-}
-
-// Example: elevation/shadow mixin
-@mixin elevation($level: 1) {
-  @if $level == 1 {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
-  } @else if $level == 2 {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-  } @else if $level == 3 {
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-  }
-}
