@@ -1,0 +1,30 @@
+/* 
+      Para mantener la encapsulación e integrar los tokens scss de 'ts-design-tokens',
+      utilizamos variables CSS mapeadas a los valores que tienes configurados.
+    */
+    :host {
+      display: block;
+      height: 100%;
+    }
+
+    /* Variables de Token mapeadas (puedes importarlas también en tu styles.scss global) */
+    .product-card {
+      background-color: var(--ts-bg-card, #111827); /* Token bg-card */
+      border-color: var(--ts-border, #1f2937);       /* Token border */
+    }
+
+    .border-token {
+      border-color: var(--ts-border, #1f2937);
+    }
+
+    .text-token-primary {
+      color: var(--ts-primary, #10b981);            /* Token primary (Emerald) */
+    }
+
+    .bg-token-primary-opacity {
+      background-color: rgba(16, 185, 129, 0.1);     /* Opacidad del primary */
+    }
+
+    .border-token-primary {
+      border-color: rgba(16, 185, 129, 0.3);
+    }

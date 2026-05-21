@@ -7,10 +7,5 @@ import { CommonModule } from '@angular/common';
   template: `
    <h1> Hola mundo</h1>
   `,
-  styles: [`
-   h1 {
-    color: var(--brand-accent);
-   }
-  `]
 })
-export class RemoteEntryComponent { }
+export class RemoteEntryComponent {}

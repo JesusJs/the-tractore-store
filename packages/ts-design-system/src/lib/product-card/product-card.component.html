@@ -1,1 +1,69 @@
-<p>button works!</p>
+<div class="product-card flex flex-col justify-between h-full w-full rounded-2xl border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+      
+      <!-- Upper Section: Media and Main Details -->
+      <div>
+        <!-- Image with safe placeholder fallback -->
+        <div class="relative w-full h-48 md:h-52 overflow-hidden rounded-t-2xl bg-slate-950 border-b border-token">
+          <img 
+            [src]="image() || 'https://placehold.co/600x400/111827/94a3b8?text=Tractor+Store'" 
+            [alt]="title()" 
+            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            (error)="$any($event.target).src = 'https://placehold.co/600x400/111827/94a3b8?text=Tractor+Store'"
+          />
+          <span class="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md text-token-primary bg-token-primary-opacity border border-token-primary">
+            {{ brand() }}
+          </span>
+        </div>
+
+        <!-- Content Area: Title, Description, and Price -->
+        <div class="p-5">
+          <h4 class="text-white font-bold text-lg leading-snug tracking-tight mb-2 hover:text-token-primary transition-colors">
+            {{ title() }}
+          </h4>
+          
+          <p class="text-slate-400 text-xs md:text-sm line-clamp-3 mb-4 leading-relaxed font-sans">
+            {{ description() }}
+          </p>
+
+          <!-- Price Display using Design System Colors -->
+          <div class="flex items-baseline gap-1.5 mb-5 border-b border-token pb-4">
+            <span class="text-[11px] font-semibold text-slate-500 uppercase">Precio</span>
+            <span class="text-token-primary font-bold text-xl md:text-2xl font-mono">
+              ${{ price() | number:'1.0-0' }} USD
+            </span>
+          </div>
+
+          <!-- Interactive Options: Wheels / Engine Variants -->
+          <div class="space-y-2 mb-2">
+            <label class="text-[10px] md:text-[11px] text-slate-500 font-bold uppercase tracking-wider block">
+              Configuración de Ruedas / Motor
+            </label>
+            <!-- 
+              Two-Way Binding local usando [(selected)] enlazado al model Signal "selectedVariant"
+            -->
+            <ds-variant-option 
+              [options]="variants()" 
+              [(selected)]="selectedVariant">
+            </ds-variant-option>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lower Section: Action Button -->
+      <div class="p-5 pt-0">
+        <!-- 
+          Utiliza el componente atómico 'ds-button' pasándole el estado disabled 
+          basado en si hay o no una variante seleccionada.
+        -->
+        <ds-button 
+          variant="primary" 
+          [disabled]="!selectedVariant()" 
+          (btnClick)="onAddToCartClick()">
+          <span class="flex items-center justify-center gap-2">
+            <i class="fa-solid fa-cart-plus text-xs"></i>
+            Agregar al Carrito
+          </span>
+        </ds-button>
+      </div>
+
+    </div>

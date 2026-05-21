@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'lib-button',
+  selector: 'ds-variant-option',
   imports: [CommonModule],
   templateUrl: './variant-option.component.html',
   styleUrl: './variant-option.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ButtonComponent {}
+export class VariantOptionComponent {}
