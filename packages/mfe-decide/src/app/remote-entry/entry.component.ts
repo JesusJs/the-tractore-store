@@ -1,9 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductCardComponent } from '@the-tractor-store/ts-design-system';
 
 @Component({
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, ],
   selector: 'app-mfe_decide-entry',
   templateUrl: 'entry.component.html',
   styleUrl: 'entry.component.scss'

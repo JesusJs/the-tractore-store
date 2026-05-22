@@ -16,8 +16,8 @@ interface NavItem {
 })
 export class HeaderComponent {
   public navItems: NavItem[] = [
-    { label: 'MACHINES', route: 'mfe_explore' },
-    { label: 'STORES',   route: 'mfe_decide'  },
+    { label: 'MACHINES', route: '/mfe_explore/machines' },
+    { label: 'STORES',   route: '/mfe_explore/stores'  },
   ];
 
   public cartCount: number = 0;

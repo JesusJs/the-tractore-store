@@ -1,0 +1,24 @@
+<section class="e_CategoryPage">
+  <!-- Cabecera de Categoría y Filtros -->
+  <header class="e_CategoryPage__header">
+    <h1 class="e_CategoryPage__title">Autonomous</h1>
+    <div class="e_CategoryPage__filter">
+      <span>Filter:</span>
+      <button class="filter-btn">All</button>
+      <button class="filter-btn">Classics</button>
+      <button class="filter-btn is-active">Autonomous</button>
+    </div>
+  </header>
+
+  <!-- Cuadrícula de productos -->
+  <main class="e_CategoryPage__grid">
+  @for (product of products; track $index) {
+<article class="e_ProductCard" [routerLink]="['/mfe_decide/details', product.id]">
+    <img [src]="product.image" alt="{{ product.name }}" class="e_ProductCard__image">
+    <h3 class="e_ProductCard__name">{{ product.name }}</h3>
+    <p class="e_ProductCard__price">{{ product.price }} Ø</p>
+  </article>
+  }
+  </main>
+  
+</section>

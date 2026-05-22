@@ -20,7 +20,8 @@
           {
             "glob": "**/*",
             "input": "packages/mfe-explore/public"
-          }
+          },
+          "packages/mfe-explore/src/assets"
         ],
         "styles": [
           "packages/mfe-explore/src/tailwind.css",

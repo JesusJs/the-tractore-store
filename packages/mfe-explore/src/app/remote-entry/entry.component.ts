@@ -6,15 +6,19 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ProductCardComponent } from '@the-tractor-store/ts-design-system';
+import { RecomendationsComponent } from '../../page/recomendations/recomendations.component';
+import { HomeComponent } from '../../page/home/home.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+
+
 
 
 
 @Component({
   selector: 'app-mfe_explore-entry',
-  imports: [CommonModule, ProductCardComponent],
+  imports: [CommonModule, RecomendationsComponent,
+     HomeComponent, FooterComponent],
   templateUrl: 'entry.component.html',
-  styleUrl: './entry.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RemoteEntryComponent {

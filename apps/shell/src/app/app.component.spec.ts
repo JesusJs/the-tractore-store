@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { provideRouter, RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA, signal, WritableSignal } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../components/footer/footer.component';
+import { FooterComponent } from '../../../../packages/mfe-explore/src/components/footer/footer.component';
 
 // Interface to allow type-safe checking of the prototype-injected properties/methods
 interface ExtendedAppComponent extends AppComponent {
