@@ -1,0 +1,177 @@
+/* ============================================
+   SHELL HEADER — Token-driven styles
+   Uses component tokens from design-tokens/src/components.css
+   ============================================ */
+
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: var(--header-z, 50);
+}
+
+.ts-header {
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: var(--header-shadow);
+  position: relative;
+
+  &__container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  /* Logo */
+  &__logo-link {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.88;
+    }
+  }
+
+  &__logo {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* Navigation */
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex: 1;
+    justify-content: center;
+  }
+
+  &__nav-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 110px;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--header-nav-radius);
+    font-family: var(--font-family-base);
+    font-size: var(--header-nav-font-size);
+    font-weight: var(--header-nav-font-weight);
+    letter-spacing: var(--header-nav-letter-spacing);
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--header-nav-text);
+    background: var(--header-nav-bg);
+    border: 1px solid var(--header-nav-border);
+    box-shadow: var(--header-nav-shadow);
+    transition: var(--transition-base);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--header-nav-text-hover);
+      background: var(--header-nav-bg-hover);
+      border-color: rgba(0,0,0,0.1);
+      transform: translateY(-0.5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    &:active {
+      transform: translateY(0.5px);
+      box-shadow: var(--shadow-xs);
+    }
+
+    /* Active route state */
+    &--active {
+      color: var(--header-nav-text-active);
+      font-weight: var(--font-weight-extrabold);
+      border-color: var(--brand-accent-border);
+      background-color: var(--brand-accent-light);
+    }
+  }
+
+  /* Cart button */
+  &__cart-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--header-cart-size);
+    height: var(--header-cart-size);
+    border-radius: var(--header-cart-radius);
+    background-color: var(--header-cart-bg);
+    border: 1px solid var(--header-cart-border);
+    box-shadow: var(--header-cart-shadow);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: var(--transition-base);
+
+    &:hover {
+      border-color: rgba(0,0,0,0.15);
+      box-shadow: var(--shadow-lg);
+      transform: scale(1.03);
+    }
+
+    &:active {
+      transform: scale(0.97);
+    }
+  }
+
+  &__cart-icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  &__cart-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: var(--radius-pill);
+    background-color: var(--brand-accent);
+    color: var(--white);
+    font-family: var(--font-family-base);
+    font-size: 10px;
+    font-weight: var(--font-weight-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--header-bg);
+  }
+
+  /* Brand red accent line at bottom */
+  &__accent-line {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--brand-accent) 20%,
+      var(--brand-accent) 80%,
+      transparent 100%
+    );
+    opacity: 0.25;
+  }
+}
+
+/* Responsive: hide nav on mobile */
+@media (max-width: 640px) {
+  .ts-header {
+    &__nav {
+      display: none;
+    }
+
+    &__container {
+      padding: 0 var(--space-4);
+    }
+  }
+}

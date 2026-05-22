@@ -1,22 +1,60 @@
 :root {
-  /* Brand */
-  --brand-accent: var(--red-500);
+  /* ============================================
+     SEMANTIC TOKENS — LAYER 2
+     Strictly maps primitive values to design intent.
+     Uses ONLY the verified colors from the CSS overview.
+     ============================================ */
 
-  /* Actions */
-  --color-primary: var(--gray-900);
-  --color-primary-hover: #2a2a2a;
+  /* --- Brand Accent --- */
+  --brand-accent:         var(--red-brand);
+  --brand-accent-hover:   var(--red-brand);
+  --brand-accent-light:   var(--white-cc);
+  --brand-accent-border:  var(--gray-light);
 
-  /* Surfaces */
-  --color-surface: var(--white);
-  --color-background: var(--gray-100);
+  /* --- Primary Actions (dark CTA buttons) --- */
+  --color-primary:        var(--black);
+  --color-primary-hover:  var(--black);
 
-  /* Text */
-  --color-text-primary: var(--gray-900);
-  --color-text-secondary: var(--gray-500);
+  /* --- Surfaces --- */
+  --color-background:        var(--white);       /* Page background */
+  --color-surface:           var(--white);       /* Card, panel surface */
+  --color-surface-elevated:  var(--white);       /* Dropdowns, modals */
+  --color-surface-muted:     var(--white-cc);    /* Subtle backgrounds */
+  --color-surface-card:      var(--white);       /* Product/content cards */
 
-  /* Borders */
-  --color-border: var(--gray-300);
+  /* --- Text --- */
+  --color-text-primary:   var(--black);
+  --color-text-secondary: var(--black);
+  --color-text-muted:     var(--black);
+  --color-text-inverse:   var(--white);
+  --color-text-accent:    var(--red-brand);
+  --color-text-purple:    var(--purple);
 
-  /* States */
-  --color-success: var(--green-500);
+  /* --- Borders --- */
+  --color-border:         var(--beige-light); /* #eeebe2 warm light border */
+  --color-border-subtle:  var(--beige-light);
+  --color-border-strong:  var(--gray-light);  /* #cccccc light gray border */
+
+  /* --- Shadows --- */
+  --shadow-xs:  var(--shadow-raw-xs);
+  --shadow-sm:  var(--shadow-raw-sm);
+  --shadow-md:  var(--shadow-raw-md);
+  --shadow-lg:  var(--shadow-raw-lg);
+  --shadow-xl:  var(--shadow-raw-xl);
+  --shadow-brand: var(--shadow-raw-red);
+
+  /* --- Typography --- */
+  --font-family-base:    'Raleway', 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-family-heading: 'Raleway', Georgia, serif;
+  --font-family-mono:    'Courier New', Courier, monospace;
+
+  /* --- State Colors (Strictly restricted to allowed palette) --- */
+  --color-success:        var(--black);
+  --color-success-light:  var(--white-cc);
+  --color-warning:        var(--red-brand);
+  --color-error:          var(--red-brand);
+
+  /* --- Interaction States --- */
+  --color-hover-overlay:  rgba(0, 0, 0, 0.04);
+  --color-focus-ring:     rgba(255, 90, 85, 0.4);
 }

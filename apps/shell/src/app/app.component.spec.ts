@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { provideRouter, RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA, signal, WritableSignal } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
+import { FooterComponent } from '../components/footer/footer.component';
 
 // Interface to allow type-safe checking of the prototype-injected properties/methods
 interface ExtendedAppComponent extends AppComponent {
@@ -46,15 +46,6 @@ describe('AppComponent', () => {
         provideRouter([]),
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    });
-
-    // Override AppComponent to remove HeaderComponent and FooterComponent from its imports.
-    // This avoids infinite recursion caused by HeaderComponent's selector being 'header'
-    // and its template containing a '<header>' element.
-    TestBed.overrideComponent(AppComponent, {
-      set: {
-        imports: [RouterModule]
-      }
     });
 
     await TestBed.compileComponents();

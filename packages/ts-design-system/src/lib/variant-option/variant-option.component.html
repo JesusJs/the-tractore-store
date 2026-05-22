@@ -1,12 +1,9 @@
-<div class="flex flex-wrap gap-2">
+<div class="ds-variant-group flex flex-wrap gap-2">
   @for (option of options(); track option) {
-    <button 
+    <button
       (click)="selected.set(option)"
-      class="py-1.5 px-3 rounded-lg text-xs font-semibold border transition-all duration-200 cursor-pointer"
-      [ngClass]="{
-        'bg-token-primary-opacity border-token-primary text-token-primary font-bold': selected() === option,
-        'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700': selected() !== option
-      }"
+      class="ds-variant-btn"
+      [class.ds-variant-btn--active]="selected() === option"
     >
       {{ option }}
     </button>

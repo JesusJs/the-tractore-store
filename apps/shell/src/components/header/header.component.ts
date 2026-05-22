@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -6,6 +6,7 @@ interface NavItem {
   label: string;
   route: string;
 }
+
 @Component({
   selector: 'app-header',
   imports: [CommonModule, RouterLink, RouterLinkActive],
@@ -14,19 +15,14 @@ interface NavItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-
   public navItems: NavItem[] = [
     { label: 'MACHINES', route: 'mfe_explore' },
-    { label: 'STORES', route: 'mfe_decide' }
+    { label: 'STORES',   route: 'mfe_decide'  },
   ];
 
   public cartCount: number = 0;
 
-  constructor() {}
-
-  ngOnInit(): void {}
-
   public toggleCart(): void {
-    console.log('Abriendo el carrito...');
+    console.log('[Header] Cart toggled');
   }
 }

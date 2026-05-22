@@ -1,11 +1,11 @@
-<button 
+<button
   [disabled]="disabled()"
   (click)="btnClick.emit($event)"
-  class="w-full py-3 px-4 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-  [ngClass]="{
-    'bg-token-primary text-slate-950 hover:bg-emerald-400': variant() === 'primary',
-    'bg-slate-800 text-white hover:bg-slate-700 border border-slate-700': variant() === 'secondary'
-  }"
+  class="ds-btn w-full flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed"
+  [class.ds-btn--primary]="variant() === 'primary'"
+  [class.ds-btn--secondary]="variant() === 'secondary'"
+  [class.ds-btn--accent]="variant() === 'accent'"
+  [class.ds-btn--disabled]="disabled()"
 >
   <ng-content></ng-content>
 </button>

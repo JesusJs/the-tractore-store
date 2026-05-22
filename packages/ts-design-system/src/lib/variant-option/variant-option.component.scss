@@ -1,11 +1,33 @@
-.text-token-primary {
-  color: var(--ts-primary, #10b981);
+/* ============================================
+   DS-VARIANT-OPTION — Token-driven styles
+   ============================================ */
+
+:host {
+  display: block;
 }
 
-.bg-token-primary-opacity {
-  background-color: rgba(16, 185, 129, 0.1);
-}
+.ds-variant-btn {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--variant-radius);
+  font-size: var(--variant-font-size);
+  font-weight: var(--variant-font-weight);
+  font-family: var(--font-family-base);
+  letter-spacing: var(--letter-spacing-wide);
+  border: 1px solid var(--variant-border);
+  background-color: var(--variant-bg);
+  color: var(--variant-text);
+  cursor: pointer;
+  transition: var(--variant-transition);
 
-.border-token-primary {
-  border-color: rgba(16, 185, 129, 0.3);
+  &:hover {
+    border-color: var(--variant-border-hover);
+    color: var(--color-text-primary);
+  }
+
+  &--active {
+    background-color: var(--variant-bg-active);
+    border-color: var(--variant-border-active);
+    color: var(--variant-text-active);
+    font-weight: var(--font-weight-bold);
+  }
 }

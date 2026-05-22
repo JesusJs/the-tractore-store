@@ -1,69 +1,56 @@
-<div class="product-card flex flex-col justify-between h-full w-full rounded-2xl border transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-      
-      <!-- Upper Section: Media and Main Details -->
-      <div>
-        <!-- Image with safe placeholder fallback -->
-        <div class="relative w-full h-48 md:h-52 overflow-hidden rounded-t-2xl bg-slate-950 border-b border-token">
-          <img 
-            [src]="image() || 'https://placehold.co/600x400/111827/94a3b8?text=Tractor+Store'" 
-            [alt]="title()" 
-            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-            (error)="$any($event.target).src = 'https://placehold.co/600x400/111827/94a3b8?text=Tractor+Store'"
-          />
-          <span class="absolute top-3 left-3 px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase rounded-md text-token-primary bg-token-primary-opacity border border-token-primary">
-            {{ brand() }}
-          </span>
-        </div>
+<div class="ds-card flex flex-col justify-between h-full w-full">
 
-        <!-- Content Area: Title, Description, and Price -->
-        <div class="p-5">
-          <h4 class="text-white font-bold text-lg leading-snug tracking-tight mb-2 hover:text-token-primary transition-colors">
-            {{ title() }}
-          </h4>
-          
-          <p class="text-slate-400 text-xs md:text-sm line-clamp-3 mb-4 leading-relaxed font-sans">
-            {{ description() }}
-          </p>
-
-          <!-- Price Display using Design System Colors -->
-          <div class="flex items-baseline gap-1.5 mb-5 border-b border-token pb-4">
-            <span class="text-[11px] font-semibold text-slate-500 uppercase">Precio</span>
-            <span class="text-token-primary font-bold text-xl md:text-2xl font-mono">
-              ${{ price() | number:'1.0-0' }} USD
-            </span>
-          </div>
-
-          <!-- Interactive Options: Wheels / Engine Variants -->
-          <div class="space-y-2 mb-2">
-            <label class="text-[10px] md:text-[11px] text-slate-500 font-bold uppercase tracking-wider block">
-              Configuración de Ruedas / Motor
-            </label>
-            <!-- 
-              Two-Way Binding local usando [(selected)] enlazado al model Signal "selectedVariant"
-            -->
-            <ds-variant-option 
-              [options]="variants()" 
-              [(selected)]="selectedVariant">
-            </ds-variant-option>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lower Section: Action Button -->
-      <div class="p-5 pt-0">
-        <!-- 
-          Utiliza el componente atómico 'ds-button' pasándole el estado disabled 
-          basado en si hay o no una variante seleccionada.
-        -->
-        <ds-button 
-          variant="primary" 
-          [disabled]="!selectedVariant()" 
-          (btnClick)="onAddToCartClick()">
-          <span class="flex items-center justify-center gap-2">
-            <i class="fa-solid fa-cart-plus text-xs"></i>
-            Agregar al Carrito
-          </span>
-        </ds-button>
-      </div>
-
+  <!-- Upper: Image + Details -->
+  <div>
+    <!-- Image -->
+    <div class="ds-card__image-wrap">
+      <img
+        [src]="image() || 'https://placehold.co/600x380/f5f5f5/666666?text=Tractor+Store'"
+        [alt]="title()"
+        class="ds-card__image"
+        (error)="$any($event.target).src = 'https://placehold.co/600x380/f5f5f5/666666?text=Tractor+Store'"
+      />
+      <span class="ds-card__badge">{{ brand() }}</span>
     </div>
+
+    <!-- Body: Title, Description, Price -->
+    <div class="ds-card__body">
+      <h4 class="ds-card__title">{{ title() }}</h4>
+
+      <p class="ds-card__description">{{ description() }}</p>
+
+      <div class="ds-card__price-row">
+        <span class="ds-card__price-label">Precio</span>
+        <span class="ds-card__price">
+          ${{ price() | number:'1.0-0' }} USD
+        </span>
+      </div>
+
+      <!-- Variant selector -->
+      <div class="space-y-2 mb-2">
+        <span class="ds-card__variants-label">Configuración</span>
+        <ds-variant-option
+          [options]="variants()"
+          [(selected)]="selectedVariant">
+        </ds-variant-option>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer: CTA button -->
+  <div class="ds-card__footer">
+    <ds-button
+      variant="accent"
+      [disabled]="!selectedVariant()"
+      (btnClick)="onAddToCartClick()">
+      <span class="flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m12-9l2 9m-9-4h4"/>
+        </svg>
+        Agregar al Carrito
+      </span>
+    </ds-button>
+  </div>
+
+</div>

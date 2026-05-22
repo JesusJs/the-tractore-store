@@ -1,23 +1,112 @@
 :root {
-  /* Buttons */
-  --button-primary-bg: var(--color-primary);
-  --button-primary-text: var(--white);
+  /* ============================================
+     COMPONENT TOKENS — LAYER 3
+     Maps semantic tokens to specific components.
+     Reference ONLY semantic tokens here.
+     ============================================ */
 
-  --button-secondary-bg: transparent;
-  --button-secondary-border: var(--color-border);
-  --button-secondary-text: var(--color-text-primary);
+  /* ---- Button Component ---- */
+  --btn-primary-bg:       var(--color-primary);
+  --btn-primary-bg-hover: var(--color-primary-hover);
+  --btn-primary-text:     var(--color-text-inverse);
+  --btn-primary-border:   transparent;
 
-  /* Radius */
-  --radius-pill: 9999px;
+  --btn-secondary-bg:       transparent;
+  --btn-secondary-bg-hover: var(--color-surface-muted);
+  --btn-secondary-text:     var(--color-text-primary);
+  --btn-secondary-border:   var(--color-border);
 
-  /* Typography */
-  --font-family-base: 'Raleway', sans-serif;
+  --btn-accent-bg:       var(--brand-accent);
+  --btn-accent-bg-hover: var(--brand-accent-hover);
+  --btn-accent-text:     var(--color-text-inverse);
 
-  /* Spacing */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
+  --btn-radius:        var(--radius-xl);
+  --btn-font-weight:   var(--font-weight-bold);
+  --btn-font-size:     var(--font-size-sm);
+  --btn-letter-spacing: var(--letter-spacing-wide);
+  --btn-padding-y:     var(--space-3);
+  --btn-padding-x:     var(--space-5);
+  --btn-transition:    var(--transition-base);
+  --btn-disabled-opacity: 0.45;
+
+  /* ---- Product Card Component ---- */
+  --card-bg:              var(--color-surface-card);
+  --card-bg-hover:        var(--color-surface-elevated);
+  --card-border:          var(--color-border-subtle);
+  --card-border-hover:    var(--color-border);
+  --card-radius:          var(--radius-2xl);
+  --card-shadow:          var(--shadow-sm);
+  --card-shadow-hover:    var(--shadow-xl);
+  --card-transition:      var(--transition-slow);
+
+  --card-image-height:    200px;
+  --card-image-bg:        var(--color-surface-muted);
+
+  --card-text:            var(--color-text-primary);
+  --card-text-muted:      var(--color-text-secondary);
+  --card-text-meta:       var(--color-text-muted);
+
+  --card-price-color:     var(--brand-accent);
+  --card-price-size:      var(--font-size-xl);
+
+  --card-badge-bg:        var(--brand-accent-light);
+  --card-badge-text:      var(--brand-accent);
+  --card-badge-border:    var(--brand-accent-border);
+
+  --card-divider:         var(--color-border-subtle);
+  --card-padding:         var(--space-5);
+
+  /* ---- Variant Option Component ---- */
+  --variant-bg:            var(--color-surface-muted);
+  --variant-bg-active:     var(--brand-accent-light);
+  --variant-text:          var(--color-text-secondary);
+  --variant-text-active:   var(--brand-accent);
+  --variant-border:        var(--color-border);
+  --variant-border-active: var(--brand-accent-border);
+  --variant-border-hover:  var(--color-border-strong);
+  --variant-radius:        var(--radius-md);
+  --variant-font-size:     var(--font-size-xs);
+  --variant-font-weight:   var(--font-weight-semibold);
+  --variant-transition:    var(--transition-fast);
+
+  /* ---- Header Component ---- */
+  --header-bg:             var(--color-surface);
+  --header-border:         var(--color-border-subtle);
+  --header-height:         88px;
+  --header-shadow:         var(--shadow-brand);
+  --header-z:              50;
+
+  --header-nav-text:          var(--color-text-secondary);
+  --header-nav-text-hover:    var(--color-text-primary);
+  --header-nav-text-active:   var(--brand-accent);
+  --header-nav-bg:            var(--color-surface);
+  --header-nav-bg-hover:      var(--color-surface-muted);
+  --header-nav-border:        rgba(0,0,0,0.05);
+  --header-nav-radius:        var(--radius-lg);
+  --header-nav-shadow:        var(--shadow-sm);
+  --header-nav-font-size:     var(--font-size-xs);
+  --header-nav-font-weight:   var(--font-weight-bold);
+  --header-nav-letter-spacing: var(--letter-spacing-widest);
+
+  --header-cart-bg:       var(--color-surface);
+  --header-cart-border:   rgba(0,0,0,0.08);
+  --header-cart-shadow:   var(--shadow-md);
+  --header-cart-size:     52px;
+  --header-cart-radius:   var(--radius-pill);
+
+  /* ---- Footer Component ---- */
+  --footer-bg:            var(--color-surface-muted);
+  --footer-border:        var(--color-border-subtle);
+  --footer-text:          var(--color-text-secondary);
+  --footer-text-muted:    var(--color-text-muted);
+  --footer-accent:        var(--brand-accent);
+  --footer-padding-y:     var(--space-10);
+
+  /* ---- Hero Card (Landing Page) ---- */
+  --hero-card-radius:     var(--radius-3xl);
+  --hero-card-shadow:     var(--shadow-lg);
+  --hero-card-shadow-hover: var(--shadow-xl);
+  --hero-card-transition: var(--transition-slow);
+  --hero-card-label-bg:   rgba(255,255,255,0.92);
+  --hero-card-label-text: var(--color-text-primary);
 }

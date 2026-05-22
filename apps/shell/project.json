@@ -20,7 +20,8 @@
           {
             "glob": "**/*",
             "input": "apps/shell/public"
-          }
+          },
+          "apps/shell/src/assets"
         ],
         "styles": ["apps/shell/src/tailwind.css", "apps/shell/src/styles.scss"],
         "scripts": [],

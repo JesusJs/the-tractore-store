@@ -1,0 +1,88 @@
+/* ============================================
+   SHELL FOOTER — Token-driven styles
+   ============================================ */
+
+:host {
+  display: block;
+}
+
+.ts-footer {
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+  padding: var(--footer-padding-y) 0 var(--space-8);
+
+  &__container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+  }
+
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: center;
+    padding-bottom: var(--space-8);
+  }
+
+  &__logo {
+    height: 44px;
+    width: auto;
+    opacity: 0.75;
+    filter: grayscale(0.2);
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__tagline {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-sm);
+    color: var(--footer-text-muted);
+    letter-spacing: var(--letter-spacing-wide);
+    margin: 0;
+  }
+
+  &__divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--footer-border) 20%,
+      var(--footer-border) 80%,
+      transparent 100%
+    );
+    margin-bottom: var(--space-6);
+  }
+
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: center;
+  }
+
+  &__copyright {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-xs);
+    color: var(--footer-text-muted);
+    letter-spacing: var(--letter-spacing-wide);
+    margin: 0;
+  }
+
+  &__credit {
+    font-family: var(--font-family-base);
+    font-size: var(--font-size-xs);
+    color: var(--footer-text-muted);
+    margin: 0;
+  }
+
+  &__accent {
+    color: var(--footer-accent);
+    font-weight: var(--font-weight-semibold);
+  }
+}

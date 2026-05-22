@@ -1,0 +1,47 @@
+  * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Contenedor principal de la cuadrícula */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Estilo base para el enlace de categoría */
+        .e_HomePage__categoryLink {
+            display: block;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .e_HomePage__categoryLink:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Estilo de la imagen */
+        .e_HomePage__categoryLink img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            border-radius: 8px;
+        }
+
+        /* Estilo del texto debajo de la imagen */
+        .e_HomePage__categoryLink::after {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            font-weight: 500;
+        }

@@ -1,0 +1,48 @@
+<!-- SHELL HEADER -->
+<header class="ts-header">
+  <div class="ts-header__container">
+
+    <!-- Logo -->
+    <a [routerLink]="['/mfe_explore']" class="ts-header__logo-link" aria-label="TractorStore Home">
+      <img
+        src="assets/logo.svg"
+        alt="TractorStore"
+        class="ts-header__logo"
+      />
+    </a>
+
+    <!-- Navigation -->
+    <nav class="ts-header__nav" aria-label="Navegación principal">
+      @for (item of navItems; track item.route) {
+        <a
+          [routerLink]="[item.route]"
+          routerLinkActive="ts-header__nav-link--active"
+          class="ts-header__nav-link"
+          [attr.aria-label]="item.label"
+        >
+          {{ item.label }}
+        </a>
+      }
+    </nav>
+
+    <!-- Cart Button -->
+    <button
+      class="ts-header__cart-btn"
+      (click)="toggleCart()"
+      aria-label="Ver carrito de compras"
+    >
+      <!-- Shopping bag icon -->
+      <svg class="ts-header__cart-icon" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z" />
+      </svg>
+      @if (cartCount > 0) {
+        <span class="ts-header__cart-badge">{{ cartCount }}</span>
+      }
+    </button>
+
+  </div>
+
+  <!-- Brand accent line at bottom -->
+  <div class="ts-header__accent-line"></div>
+</header>
