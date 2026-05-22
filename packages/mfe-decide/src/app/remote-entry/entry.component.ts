@@ -45,6 +45,5 @@ export class RemoteEntryComponent implements OnInit {
       price: this.productPrice(),
       image: this.productImage()
     });
-    alert(`¡Agregado al carrito! ${this.productName()}`);
   }
 }

@@ -20,6 +20,11 @@ export class CartService {
   });
 
   constructor() {
+    const globalWindow = window as any;
+    if (globalWindow.__ts_cart_service_instance__) {
+      return globalWindow.__ts_cart_service_instance__;
+    }
+
     try {
       const saved = localStorage.getItem('ts_cart');
       if (saved) {
@@ -28,6 +33,8 @@ export class CartService {
     } catch (e) {
       console.error('Error loading cart from localStorage', e);
     }
+
+    globalWindow.__ts_cart_service_instance__ = this;
   }
 
   public addToCart(item: { name: string; price: string; image: string }): void {
@@ -45,6 +52,11 @@ export class CartService {
 
     this.cartItems.set(updated);
     this.saveToStorage(updated);
+  }
+
+  public clearCart(): void {
+    this.cartItems.set([]);
+    this.saveToStorage([]);
   }
 
   private saveToStorage(items: SimpleCartItem[]): void {

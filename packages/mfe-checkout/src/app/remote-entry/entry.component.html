@@ -1,34 +1,60 @@
-<section class="e_Checkout">
-  <h2 class="e_Checkout__title">Checkout</h2>
+@if (orderPlaced()) {
+  <section class="e_Thanks">
+    <h1 class="e_Thanks__title">Thanks for your order!</h1>
+    <p class="e_Thanks__text">We'll notify you, when its ready for pickup.</p>
+    <button class="e_Thanks__continueBtn" (click)="continueShopping()">CONTINUE SHOPPING</button>
+  </section>
+} @else {
+  <section class="e_Checkout">
+    <h2 class="e_Checkout__title">Checkout</h2>
 
-  <div class="e_Checkout__form">
-    <h3 class="e_Checkout__subtitle">Personal Data</h3>
-    <div class="e_Checkout__row">
-      <div class="e_Checkout__field">
-        <label>First name</label>
-        <input type="text" />
+    <div class="e_Checkout__form">
+      <h3 class="e_Checkout__subtitle">Personal Data</h3>
+      <div class="e_Checkout__row">
+        <div class="e_Checkout__field">
+          <label>First name</label>
+          <input type="text" />
+        </div>
+        <div class="e_Checkout__field">
+          <label>Last name</label>
+          <input type="text" />
+        </div>
       </div>
-      <div class="e_Checkout__field">
-        <label>Last name</label>
-        <input type="text" />
+
+      <hr class="e_Checkout__divider" />
+
+      <h3 class="e_Checkout__subtitle">Store Pickup</h3>
+      <button class="e_Checkout__storeBtn" (click)="openModal()">CHOOSE A STORE</button>
+      
+      <div class="e_Checkout__field e_Checkout__field--mt">
+        <label>Store ID</label>
+        <input type="text" [value]="selectedStoreId()" (input)="onStoreIdInput($event)" />
+      </div>
+
+      <hr class="e_Checkout__divider" />
+
+      <div class="e_Checkout__actions">
+        <button class="e_Checkout__backBtn" [routerLink]="['/mfe_explore']">BACK TO CART</button>
+        <button class="e_Checkout__orderBtn" [disabled]="!selectedStoreId()" (click)="placeOrder()">PLACE ORDER</button>
       </div>
     </div>
+  </section>
 
-    <hr class="e_Checkout__divider" />
-
-    <h3 class="e_Checkout__subtitle">Store Pickup</h3>
-    <button class="e_Checkout__storeBtn">CHOOSE A STORE</button>
-    
-    <div class="e_Checkout__field e_Checkout__field--mt">
-      <label>Store ID</label>
-      <input type="text" />
+  <!-- Modal Overlay -->
+  @if (isModalOpen()) {
+    <div class="ts-modal-overlay" (click)="closeModal()">
+      <div class="ts-modal" (click)="$event.stopPropagation()">
+        <h3 class="ts-modal__title">Choose a Store</h3>
+        <div class="ts-modal__list">
+          @for (store of stores; track store.id) {
+            <div class="ts-modal__item" (click)="selectStore(store.id)">
+              <h4>{{ store.name }}</h4>
+              <p>{{ store.city }} (ID: {{ store.id }})</p>
+            </div>
+          }
+        </div>
+        <button class="ts-modal__close" (click)="closeModal()">Close</button>
+      </div>
     </div>
-
-    <hr class="e_Checkout__divider" />
-
-    <div class="e_Checkout__actions">
-      <button class="e_Checkout__backBtn">BACK TO CART</button>
-      <button class="e_Checkout__orderBtn">PLACE ORDER</button>
-    </div>
-  </div>
-</section>
+  }
+}
