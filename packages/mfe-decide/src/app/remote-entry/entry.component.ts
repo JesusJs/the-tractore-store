@@ -8,8 +8,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: 'entry.component.scss'
 })
 export class RemoteEntryComponent {
-  onAddToCart(event: { id: string, variant: string }): void {
-    console.log('Agregado al carrito:', event);
-    alert(`¡Agregado al carrito! MFE-Decide ha emitido el producto: ${event.id} con la configuración: ${event.variant}`);
-  }
+  // onAddToCart(event: { id: string, variant: string }): void {
+  //   console.log('Agregado al carrito:', event);
+  //   alert(`¡Agregado al carrito! MFE-Decide ha emitido el producto: ${event.id} con la configuración: ${event.variant}`);
+  // }
 }

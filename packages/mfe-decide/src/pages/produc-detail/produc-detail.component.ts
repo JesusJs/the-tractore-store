@@ -14,12 +14,12 @@ export class ProducDetailComponent {
 
   constructor(private route: ActivatedRoute) {}
 
-  ngOnInit() {
-    // Escuchamos los cambios en la ruta para obtener el :id
-    this.route.paramMap.subscribe(params => {
-      this.productId = params.get('id');
-      console.log('Cargando datos para el producto:', this.productId);
-      // Aquí llamarías a tu servicio para obtener los datos del tractor
-    });
-  }
+  // ngOnInit() {
+  //   // Escuchamos los cambios en la ruta para obtener el :id
+  //   this.route.paramMap.subscribe(params => {
+  //     this.productId = params.get('id');
+  //     console.log('Cargando datos para el producto:', this.productId);
+  //     // Aquí llamarías a tu servicio para obtener los datos del tractor
+  //   });
+  // }
 }

@@ -3,7 +3,7 @@ import { ModuleFederationConfig } from '@nx/module-federation';
 const config: ModuleFederationConfig = {
   name: 'mfe_explore',
   exposes: {
-    './Routes': 'packages/mfe-explore/src/app/app.routes.ts',
+    './Routes': 'packages/mfe-explore/src/app/remote-entry/entry.routes.ts',
   },
 };
 
