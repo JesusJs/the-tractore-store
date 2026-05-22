@@ -1,0 +1,56 @@
+ :root {
+        /* Colores del Sistema de Tokens (Asegúrate de que coincidan con ts-design-tokens) */
+        --ts-primary: #ef4444;          /* Rojo retro de Tractor Store */
+        --ts-primary-hover: #dc2626;
+        --ts-bg-base: #ffffff;
+        --ts-border: #f1f5f9;           /* Gris ultra claro de los bordes */
+        --ts-border-hover: #e2e8f0;
+        --ts-text-main: #1e293b;        /* Slate 800 para texto principal */
+        --ts-text-muted: #64748b;       /* Slate 500 para texto secundario */
+        --ts-font-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Degradado suave e iluminado en la parte inferior del Header tal como se ve en la captura */
+    .premium-header-shadow {
+        box-shadow: 0 4px 20px -2px rgba(239, 68, 68, 0.04), 0 2px 8px -1px rgba(0, 0, 0, 0.02);
+    }
+
+    /* Estilo físico de pestaña flotante 3D con relieve sutil */
+    .tab-pill {
+        background: linear-gradient(180deg, #fafafa 0%, #ffffff 100%);
+        border: 1px solid rgba(0, 0, 0, 0.04);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-block;
+        text-align: center;
+        min-width: 120px;
+    }
+
+    .tab-pill:hover {
+        border-color: rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        transform: translateY(-0.5px);
+    }
+
+    .tab-pill:active {
+        transform: translateY(0.5px);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Botón circular flotante del carrito con sombra difuminada y borde fino */
+    .cart-circle {
+        background: #ffffff;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .cart-circle:hover {
+        border-color: rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        transform: scale(1.02);
+    }
+
+    .cart-circle:active {
+        transform: scale(0.97);
+    }

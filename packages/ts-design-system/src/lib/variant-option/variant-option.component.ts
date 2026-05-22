@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,4 +8,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './variant-option.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantOptionComponent {}
+export class VariantOptionComponent {
+  options = input<string[]>([]);
+  selected = model<string>('');
+}

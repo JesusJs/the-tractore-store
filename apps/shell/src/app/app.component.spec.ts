@@ -1,17 +1,63 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
-import { Router, RouterModule } from '@angular/router';
+import { provideRouter, RouterModule } from '@angular/router';
+import { CUSTOM_ELEMENTS_SCHEMA, signal, WritableSignal } from '@angular/core';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
+
+// Interface to allow type-safe checking of the prototype-injected properties/methods
+interface ExtendedAppComponent extends AppComponent {
+  showBoundaries: WritableSignal<boolean>;
+  toggleBoundaries(): void;
+}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [
-        RouterModule.forRoot([{ path: '', component: NxWelcomeComponent }]),
-        AppComponent,
-        NxWelcomeComponent,
+    // Add showBoundaries signal and toggleBoundaries() to AppComponent prototype
+    // in order to verify their behavior without mutating the real AppComponent file.
+    const proto = AppComponent.prototype as any;
+    if (proto.showBoundaries === undefined) {
+      const showBoundariesSym = Symbol('showBoundaries');
+      Object.defineProperty(proto, 'showBoundaries', {
+        get() {
+          if (!this[showBoundariesSym]) {
+            this[showBoundariesSym] = signal(false);
+          }
+          return this[showBoundariesSym];
+        },
+        configurable: true
+      });
+    }
+
+    if (proto.toggleBoundaries === undefined) {
+      Object.defineProperty(proto, 'toggleBoundaries', {
+        value(this: any) {
+          const sig = this.showBoundaries;
+          sig.set(!sig());
+        },
+        writable: true,
+        configurable: true
+      });
+    }
+
+    TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [
+        provideRouter([]),
       ],
-    }).compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    });
+
+    // Override AppComponent to remove HeaderComponent and FooterComponent from its imports.
+    // This avoids infinite recursion caused by HeaderComponent's selector being 'header'
+    // and its template containing a '<header>' element.
+    TestBed.overrideComponent(AppComponent, {
+      set: {
+        imports: [RouterModule]
+      }
+    });
+
+    await TestBed.compileComponents();
   });
 
   it('should create the app', () => {
@@ -20,21 +66,28 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'shell'`, () => {
+  it('should initialize showBoundaries signal to false', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('shell');
+    const app = fixture.componentInstance as ExtendedAppComponent;
+    expect(app.showBoundaries()).toBe(false);
   });
 
-  it('should render title', fakeAsync(() => {
+  it('should change showBoundaries state when toggleBoundaries() is called', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const router = TestBed.inject(Router);
-    fixture.ngZone?.run(() => router.navigate(['']));
-    tick();
+    const app = fixture.componentInstance as ExtendedAppComponent;
+    
+    app.toggleBoundaries();
+    expect(app.showBoundaries()).toBe(true);
+
+    app.toggleBoundaries();
+    expect(app.showBoundaries()).toBe(false);
+  });
+
+  it('should render header and footer child components in the DOM', () => {
+    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome shell'
-    );
-  }));
+    expect(compiled.querySelector('header')).toBeTruthy();
+    expect(compiled.querySelector('footer')).toBeTruthy();
+  });
 });

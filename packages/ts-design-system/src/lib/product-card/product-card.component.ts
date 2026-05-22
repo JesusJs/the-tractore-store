@@ -4,7 +4,7 @@ import { ButtonComponent } from '../button/button.component';
 import { VariantOptionComponent } from '../variant-option/variant-option.component';
 
 @Component({
-  selector: 'product-card',
+  selector: 'ds-product-card',
   imports: [CommonModule, ButtonComponent, VariantOptionComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',

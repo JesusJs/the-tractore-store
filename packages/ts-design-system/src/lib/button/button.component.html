@@ -1,1 +1,11 @@
-<p>button works!</p>
+<button 
+  [disabled]="disabled()"
+  (click)="btnClick.emit($event)"
+  class="w-full py-3 px-4 rounded-xl font-bold transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+  [ngClass]="{
+    'bg-token-primary text-slate-950 hover:bg-emerald-400': variant() === 'primary',
+    'bg-slate-800 text-white hover:bg-slate-700 border border-slate-700': variant() === 'secondary'
+  }"
+>
+  <ng-content></ng-content>
+</button>

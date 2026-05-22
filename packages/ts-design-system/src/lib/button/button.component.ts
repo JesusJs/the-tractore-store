@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,4 +8,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ButtonComponent {}
+export class ButtonComponent {
+  disabled = input<boolean>(false);
+  variant = input<string>('primary');
+  btnClick = output<MouseEvent>();
+}
