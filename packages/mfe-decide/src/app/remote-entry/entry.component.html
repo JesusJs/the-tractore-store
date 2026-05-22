@@ -2,16 +2,14 @@
   <div class="d_ProductPage__details">
     <!-- Imagen del producto -->
     <div class="d_ProductPage__imageWrapper">
-      <img src="placeholder_tractor_detail.jpg" alt="Sapphire Sunworker 460R" class="d_ProductPage__productImage">
+      <img [src]="productImage()" [alt]="productName()" class="d_ProductPage__productImage">
     </div>
 
     <!-- Información y Acciones -->
     <div class="d_ProductPage__productInformation">
-      <h1 class="d_ProductPage__title">Sapphire Sunworker 460R</h1>
+      <h1 class="d_ProductPage__title">{{ productName() }}</h1>
       <p class="d_ProductPage__description">
-        Next-generation autonomous guidance system for seamless operation. 
-        High-capacity energy storage for all-day work without recharge. 
-        Advanced analytics suite for precision soil and plant health management.
+        {{ productDescription() }}
       </p>
 
       <div class="d_ProductPage__variants">
@@ -21,10 +19,10 @@
 
       <div class="d_ProductPage__purchase">
         <div class="purchase-info">
-          <span class="price">8700 Ø</span>
+          <span class="price">{{ productPrice() }}</span>
           <span class="stock">9 in stock, free shipping</span>
         </div>
-        <button class="d_ProductPage__addButton">ADD TO BASKET</button>
+        <button class="d_ProductPage__addButton" (click)="addToCart()">ADD TO BASKET</button>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
 <h2 class="e_recommendation__title">Recommendations</h2>
 <div class="e_recommendation__container">
 <!-- Tarjeta de Producto Recomendado -->
-<article class="e_recommendation__card">
+<article class="e_recommendation__card" [routerLink]="['/mfe_decide']" [queryParams]="{ name: 'Premium Tractor Oil', price: '$24.99', image: 'placeholder_oil.jpg' }">
 <div class="e_recommendation__badge">Best Seller</div>
 <div class="e_recommendation__image-placeholder">
 <!-- Contenedor para imagen de producto -->
@@ -14,7 +14,7 @@
 <button class="e_recommendation__add-btn">Add to Cart</button>
 </div>
 </article>
-<article class="e_recommendation__card">
+<article class="e_recommendation__card" [routerLink]="['/mfe_decide']" [queryParams]="{ name: 'Heavy Duty Filters', price: '$15.50', image: 'placeholder_filters.jpg' }">
 <div class="e_recommendation__image-placeholder">
 <span>Product Image</span>
 </div>

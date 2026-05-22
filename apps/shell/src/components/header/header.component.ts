@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { CartService } from '@the-tractor-store/shared-catalog';
 
 interface NavItem {
   label: string;
@@ -15,12 +16,16 @@ interface NavItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
+  private cartService = inject(CartService);
+
   public navItems: NavItem[] = [
     { label: 'MACHINES', route: '/mfe_explore/machines' },
     { label: 'STORES',   route: '/mfe_explore/stores'  },
   ];
 
-  public cartCount: number = 0;
+  public get cartCount(): number {
+    return this.cartService.cartCount();
+  }
 
   public toggleCart(): void {
     console.log('[Header] Cart toggled');
