@@ -1,39 +1,34 @@
-<section class="e_CartPage">
-  <h2 class="e_CartPage__title">Basket</h2>
+<section class="e_Checkout">
+  <h2 class="e_Checkout__title">Checkout</h2>
 
-  <div class="e_CartPage__content">
-    <!-- Fila del producto: ahora todo en una sola línea alineada -->
-    <div class="e_CartPage__item">
-      <img src="https://via.placeholder.com/100x60" alt="Sapphire Sunworker 460R" class="e_CartPage__itemImage">
-      
-      <div class="e_CartPage__itemDetails">
-        <h3 class="e_CartPage__itemName">Sapphire Sunworker 460R Ruby Red</h3>
-        <p class="e_CartPage__itemSku">AU-04-RD</p>
+  <div class="e_Checkout__form">
+    <h3 class="e_Checkout__subtitle">Personal Data</h3>
+    <div class="e_Checkout__row">
+      <div class="e_Checkout__field">
+        <label>First name</label>
+        <input type="text" />
       </div>
-
-      <div class="e_CartPage__itemQty">1</div>
-      
-      <button class="e_CartPage__removeBtn">
-        <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M1 1L13 13M13 1L1 13" />
-        </svg>
-      </button>
-      
-      <div class="e_CartPage__itemPrice">8700 Ø</div>
+      <div class="e_Checkout__field">
+        <label>Last name</label>
+        <input type="text" />
+      </div>
     </div>
 
-    <!-- Línea divisoria -->
-    <hr class="e_CartPage__divider">
+    <hr class="e_Checkout__divider" />
 
-    <!-- Total movido encima de los botones -->
-    <div class="e_CartPage__totalRow">
-      <span>Total: 8700 Ø</span>
+    <h3 class="e_Checkout__subtitle">Store Pickup</h3>
+    <button class="e_Checkout__storeBtn">CHOOSE A STORE</button>
+    
+    <div class="e_Checkout__field e_Checkout__field--mt">
+      <label>Store ID</label>
+      <input type="text" />
     </div>
 
-    <!-- Botones de acción -->
-    <div class="e_CartPage__actions">
-      <button class="e_CartPage__actionBtn e_CartPage__actionBtn--continue">CONTINUE SHOPPING</button>
-      <button class="e_CartPage__actionBtn e_CartPage__actionBtn--checkout">CHECKOUT</button>
+    <hr class="e_Checkout__divider" />
+
+    <div class="e_Checkout__actions">
+      <button class="e_Checkout__backBtn">BACK TO CART</button>
+      <button class="e_Checkout__orderBtn">PLACE ORDER</button>
     </div>
   </div>
 </section>
