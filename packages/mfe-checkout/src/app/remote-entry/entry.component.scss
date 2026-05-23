@@ -182,3 +182,53 @@
       }
     }
   }
+
+  /* Form Validation & Extra Pickups Styles */
+  .validation-error {
+    color: #d32f2f;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+  }
+
+  .validation-pending {
+    color: #f57c00;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+  }
+
+  .e_Checkout__extraSection {
+    margin: 2rem 0;
+  }
+
+  .e_Checkout__headerRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    .e_Checkout__subtitle {
+      margin: 0;
+    }
+  }
+
+  .e_Checkout__extraList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .e_Checkout__row--extra {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 1rem;
+  }
+
+  .e_Checkout__removeBtnWrap {
+    margin-bottom: 0px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+  }

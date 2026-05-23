@@ -2,42 +2,86 @@
   <section class="e_Thanks">
     <h1 class="e_Thanks__title">Thanks for your order!</h1>
     <p class="e_Thanks__text">We'll notify you, when its ready for pickup.</p>
-    <button class="e_Thanks__continueBtn" (click)="continueShopping()">CONTINUE SHOPPING</button>
+    <ds-button variant="secondary" (btnClick)="continueShopping()">CONTINUE SHOPPING</ds-button>
   </section>
 } @else {
   <section class="e_Checkout">
     <h2 class="e_Checkout__title">Checkout</h2>
 
-    <div class="e_Checkout__form">
+    <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()" class="e_Checkout__form">
       <h3 class="e_Checkout__subtitle">Personal Data</h3>
       <div class="e_Checkout__row">
         <div class="e_Checkout__field">
           <label>First name</label>
-          <input type="text" />
+          <input type="text" formControlName="firstName" />
+          @if (checkoutForm.get('firstName')?.invalid && (checkoutForm.get('firstName')?.dirty || checkoutForm.get('firstName')?.touched)) {
+            <span class="validation-error">First name is required (min 2 chars).</span>
+          }
         </div>
         <div class="e_Checkout__field">
           <label>Last name</label>
-          <input type="text" />
+          <input type="text" formControlName="lastName" />
+          @if (checkoutForm.get('lastName')?.invalid && (checkoutForm.get('lastName')?.dirty || checkoutForm.get('lastName')?.touched)) {
+            <span class="validation-error">Last name is required (min 2 chars).</span>
+          }
         </div>
       </div>
 
       <hr class="e_Checkout__divider" />
 
       <h3 class="e_Checkout__subtitle">Store Pickup</h3>
-      <button class="e_Checkout__storeBtn" (click)="openModal()">CHOOSE A STORE</button>
+      <div class="e_Checkout__field">
+        <ds-button variant="secondary" type="button" (btnClick)="openModal()">CHOOSE A STORE</ds-button>
+      </div>
       
       <div class="e_Checkout__field e_Checkout__field--mt">
         <label>Store ID</label>
-        <input type="text" [value]="selectedStoreId()" (input)="onStoreIdInput($event)" />
+        <input type="text" formControlName="storeId" placeholder="Select or type store ID" />
+        @if (checkoutForm.get('storeId')?.pending) {
+          <span class="validation-pending">Verifying store ID...</span>
+        }
+        @if (checkoutForm.get('storeId')?.invalid && (checkoutForm.get('storeId')?.dirty || checkoutForm.get('storeId')?.touched) && !checkoutForm.get('storeId')?.pending) {
+          <span class="validation-error">
+            @if (checkoutForm.get('storeId')?.errors?.['required']) { Store ID is required. }
+            @if (checkoutForm.get('storeId')?.errors?.['invalidStore']) { Store ID is invalid. Use Aurora Flagship Store or Big Micro Machines. }
+          </span>
+        }
+      </div>
+
+      <hr class="e_Checkout__divider" />
+
+      <!-- FormArray: Extra Pickup Persons -->
+      <div class="e_Checkout__extraSection">
+        <div class="e_Checkout__headerRow">
+          <h3 class="e_Checkout__subtitle">Additional Pickup Persons</h3>
+          <ds-button variant="secondary" type="button" (btnClick)="addExtraPickup()">+ ADD PERSON</ds-button>
+        </div>
+        
+        <div formArrayName="extraPickups" class="e_Checkout__extraList">
+          @for (control of extraPickups.controls; track $index) {
+            <div class="e_Checkout__row e_Checkout__row--extra">
+              <div class="e_Checkout__field">
+                <label>Full Name</label>
+                <input type="text" [formControlName]="$index" placeholder="Guest name" />
+                @if (control.invalid && (control.dirty || control.touched)) {
+                  <span class="validation-error">Name is required (min 2 chars).</span>
+                }
+              </div>
+              <div class="e_Checkout__removeBtnWrap">
+                <ds-button variant="accent" type="button" (btnClick)="removeExtraPickup($index)">REMOVE</ds-button>
+              </div>
+            </div>
+          }
+        </div>
       </div>
 
       <hr class="e_Checkout__divider" />
 
       <div class="e_Checkout__actions">
-        <button class="e_Checkout__backBtn" [routerLink]="['/mfe_explore']">BACK TO CART</button>
-        <button class="e_Checkout__orderBtn" [disabled]="!selectedStoreId()" (click)="placeOrder()">PLACE ORDER</button>
+        <button type="button" class="e_Checkout__backBtn" [routerLink]="['/mfe_explore']">BACK TO CART</button>
+        <ds-button [disabled]="checkoutForm.invalid" type="submit">PLACE ORDER</ds-button>
       </div>
-    </div>
+    </form>
   </section>
 
   <!-- Modal Overlay -->
@@ -53,7 +97,7 @@
             </div>
           }
         </div>
-        <button class="ts-modal__close" (click)="closeModal()">Close</button>
+        <button type="button" class="ts-modal__close" (click)="closeModal()">Close</button>
       </div>
     </div>
   }
