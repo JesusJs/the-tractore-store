@@ -1,29 +1,88 @@
-<section class="d_ProductPage">
-  <div class="d_ProductPage__details">
-    <!-- Imagen del producto -->
-    <div class="d_ProductPage__imageWrapper">
-      <img [src]="productImage()" [alt]="productName()" class="d_ProductPage__productImage">
-    </div>
-
-    <!-- Información y Acciones -->
-    <div class="d_ProductPage__productInformation">
-      <h1 class="d_ProductPage__title">{{ productName() }}</h1>
-      <p class="d_ProductPage__description">
-        {{ productDescription() }}
-      </p>
-
-      <div class="d_ProductPage__variants">
-        <span class="variant-option"><span class="dot" style="background: #a52a2a;"></span> Ruby Red</span>
-        <span class="variant-option"><span class="dot" style="background: #1a1a1a;"></span> Midnight Onyx</span>
+@if (product(); as p) {
+  <section class="d_ProductPage">
+    <!-- Main Details -->
+    <div class="d_ProductPage__details">
+      <!-- Product Image -->
+      <div class="d_ProductPage__imageWrapper">
+        <img [src]="p.image" [alt]="p.name" class="d_ProductPage__productImage" />
+        @if (addedToCart()) {
+          <div class="d_ProductPage__addedBadge">✓ Added to cart!</div>
+        }
       </div>
 
-      <div class="d_ProductPage__purchase">
-        <div class="purchase-info">
-          <span class="price">{{ productPrice() }}</span>
-          <span class="stock">9 in stock, free shipping</span>
+      <!-- Info & Actions -->
+      <div class="d_ProductPage__productInformation">
+        <span class="d_ProductPage__brand">{{ p.brand }}</span>
+        <h1 class="d_ProductPage__title">{{ p.name }}</h1>
+        <p class="d_ProductPage__description">{{ p.description }}</p>
+
+        <!-- Highlights -->
+        <ul class="d_ProductPage__highlights">
+          @for (h of p.highlights; track h) {
+            <li class="d_ProductPage__highlight">
+              <span class="d_ProductPage__highlightIcon">✓</span>
+              {{ h }}
+            </li>
+          }
+        </ul>
+
+        <!-- Variant Picker -->
+        <div class="d_ProductPage__variantSection">
+          <label class="d_ProductPage__label">Select Variant</label>
+          <ds-variant-option
+            [options]="p.variants"
+            [selected]="selectedVariant()"
+            (selectedChange)="onVariantSelected($event)"
+          />
         </div>
-        <button class="d_ProductPage__addButton" (click)="addToCart()">ADD TO BASKET</button>
+
+        <!-- Purchase Box -->
+        <div class="d_ProductPage__purchase">
+          <div class="d_ProductPage__purchaseInfo">
+            <span class="d_ProductPage__price">{{ formatPrice(p.price) }}</span>
+            <span
+              class="d_ProductPage__stock"
+              [class.d_ProductPage__stock--out]="isOutOfStock"
+            >{{ stockLabel }}</span>
+          </div>
+          <ds-button
+            [disabled]="isOutOfStock || isAddingToCart() || !selectedVariant()"
+            (btnClick)="addToCart()"
+          >
+            {{ isAddingToCart() ? 'ADDING…' : 'ADD TO BASKET' }}
+          </ds-button>
+          <a class="d_ProductPage__cartLink" [routerLink]="['/mfe_checkout']">
+            View Cart ({{ cartService.cartCount() }})
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- Recommendations -->
+    @if (recommendations().length > 0) {
+      <section class="d_ProductPage__recs">
+        <h2 class="d_ProductPage__recsTitle">You Might Also Like</h2>
+        <div class="d_ProductPage__recsGrid">
+          @for (rec of recommendations(); track rec.id) {
+            <a
+              class="d_ProductPage__recCard"
+              [routerLink]="['/mfe_decide']"
+              [queryParams]="{ id: rec.id }"
+            >
+              <img [src]="rec.image" [alt]="rec.name" class="d_ProductPage__recImage" />
+              <div class="d_ProductPage__recInfo">
+                <p class="d_ProductPage__recName">{{ rec.name }}</p>
+                <p class="d_ProductPage__recPrice">{{ formatPrice(rec.price) }}</p>
+              </div>
+            </a>
+          }
+        </div>
+      </section>
+    }
+  </section>
+} @else {
+  <div class="d_ProductPage__loading">
+    <div class="d_ProductPage__spinner"></div>
+    <p>Loading product…</p>
   </div>
-</section>
+}
