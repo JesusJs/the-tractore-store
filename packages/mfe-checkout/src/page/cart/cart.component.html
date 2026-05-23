@@ -1,0 +1,59 @@
+<section class="e_Cart">
+  <h1 class="e_Cart__title">Your Basket</h1>
+
+  @if (isLoading()) {
+    <div class="e_Cart__loading">
+      <div class="e_Cart__spinner"></div>
+    </div>
+  } @else if (cartService.cart().items.length === 0) {
+    <div class="e_Cart__empty">
+      <p class="e_Cart__emptyText">Your basket is empty.</p>
+      <ds-button variant="secondary" (btnClick)="continueShopping()">BROWSE TRACTORS</ds-button>
+    </div>
+  } @else {
+    <div class="e_Cart__layout">
+      <!-- Items List -->
+      <div class="e_Cart__items">
+        @for (item of cartService.cart().items; track item.variantId) {
+          <article class="e_Cart__item" [class.e_Cart__item--removing]="isRemoving(item.variantId)">
+            <img [src]="item.image" [alt]="item.productName" class="e_Cart__itemImage" />
+            <div class="e_Cart__itemInfo">
+              <h3 class="e_Cart__itemName">{{ item.productName }}</h3>
+              <p class="e_Cart__itemVariant">{{ item.variantName }}</p>
+              <p class="e_Cart__itemQty">Qty: {{ item.quantity }}</p>
+            </div>
+            <div class="e_Cart__itemActions">
+              <span class="e_Cart__itemPrice">{{ formatPrice(item.price * item.quantity) }}</span>
+              <button
+                class="e_Cart__removeBtn"
+                [disabled]="isRemoving(item.variantId)"
+                (click)="removeItem(item.variantId)"
+              >
+                {{ isRemoving(item.variantId) ? '…' : '✕' }}
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+
+      <!-- Summary -->
+      <aside class="e_Cart__summary">
+        <h2 class="e_Cart__summaryTitle">Order Summary</h2>
+        <div class="e_Cart__summaryRow">
+          <span>Subtotal</span>
+          <span>{{ formatPrice(cartService.cart().subTotal) }}</span>
+        </div>
+        <div class="e_Cart__summaryRow">
+          <span>Tax (21%)</span>
+          <span>{{ formatPrice(cartService.cart().tax) }}</span>
+        </div>
+        <div class="e_Cart__summaryRow e_Cart__summaryRow--total">
+          <span>Total</span>
+          <span>{{ formatPrice(cartService.cart().total) }}</span>
+        </div>
+        <ds-button (btnClick)="goToCheckout()">PROCEED TO CHECKOUT</ds-button>
+        <button class="e_Cart__backBtn" (click)="continueShopping()">← Continue Shopping</button>
+      </aside>
+    </div>
+  }
+</section>

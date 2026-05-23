@@ -1,0 +1,87 @@
+<section class="e_Thanks">
+  @if (isLoading()) {
+    <div class="e_Thanks__loading">
+      <div class="e_Thanks__spinner"></div>
+    </div>
+  } @else if (error()) {
+    <div class="e_Thanks__error">
+      <p>{{ error() }}</p>
+      <ds-button variant="secondary" (btnClick)="continueShopping()">BACK TO STORE</ds-button>
+    </div>
+  } @else {
+    @if (order(); as o) {
+      <!-- Success Banner -->
+      <div class="e_Thanks__banner">
+        <span class="e_Thanks__checkmark">✓</span>
+        <h1 class="e_Thanks__title">Thanks for your order!</h1>
+        <p class="e_Thanks__subtitle">Order <strong>{{ o.id }}</strong> has been placed.</p>
+        <p class="e_Thanks__subtitle">We'll notify you when it's ready for pickup.</p>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="e_Thanks__card">
+        <h2 class="e_Thanks__cardTitle">Order Summary</h2>
+
+        <div class="e_Thanks__meta">
+          <div class="e_Thanks__metaItem">
+            <span class="e_Thanks__metaLabel">Customer</span>
+            <span>{{ o.firstName }} {{ o.lastName }}</span>
+          </div>
+          <div class="e_Thanks__metaItem">
+            <span class="e_Thanks__metaLabel">Pickup Store</span>
+            <span>{{ o.storeId }}</span>
+          </div>
+          <div class="e_Thanks__metaItem">
+            <span class="e_Thanks__metaLabel">Date</span>
+            <span>{{ o.placedAt | date:'medium' }}</span>
+          </div>
+          @if (o.extraPickups.length > 0) {
+            <div class="e_Thanks__metaItem">
+              <span class="e_Thanks__metaLabel">Extra Pickups</span>
+              <span>{{ o.extraPickups.join(', ') }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Items -->
+        <div class="e_Thanks__items">
+          @for (item of o.items; track item.variantId) {
+            <div class="e_Thanks__item">
+              <img [src]="item.image" [alt]="item.productName" class="e_Thanks__itemImage" />
+              <div class="e_Thanks__itemInfo">
+                <p class="e_Thanks__itemName">{{ item.productName }}</p>
+                <p class="e_Thanks__itemVariant">{{ item.variantName }} × {{ item.quantity }}</p>
+              </div>
+              <span class="e_Thanks__itemPrice">{{ formatPrice(item.price * item.quantity) }}</span>
+            </div>
+          }
+        </div>
+
+        <!-- Totals -->
+        <div class="e_Thanks__totals">
+          <div class="e_Thanks__totalRow">
+            <span>Subtotal</span>
+            <span>{{ formatPrice(o.subTotal) }}</span>
+          </div>
+          <div class="e_Thanks__totalRow">
+            <span>Tax (21%)</span>
+            <span>{{ formatPrice(o.tax) }}</span>
+          </div>
+          <div class="e_Thanks__totalRow e_Thanks__totalRow--grand">
+            <span>Total</span>
+            <span>{{ formatPrice(o.total) }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="e_Thanks__actions">
+        <ds-button variant="secondary" (btnClick)="continueShopping()">CONTINUE SHOPPING</ds-button>
+      </div>
+    } @else {
+      <div class="e_Thanks__empty">
+        <p>No order information available.</p>
+        <ds-button variant="secondary" (btnClick)="continueShopping()">BACK TO STORE</ds-button>
+      </div>
+    }
+  }
+</section>

@@ -1,0 +1,119 @@
+<section class="e_Checkout">
+  <h1 class="e_Checkout__title">Checkout</h1>
+
+  <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()" class="e_Checkout__form">
+    <!-- Personal Data -->
+    <div class="e_Checkout__section">
+      <h2 class="e_Checkout__subtitle">Personal Data</h2>
+      <div class="e_Checkout__row">
+        <div class="e_Checkout__field">
+          <label class="e_Checkout__label">First Name</label>
+          <input type="text" formControlName="firstName" class="e_Checkout__input" placeholder="John" />
+          @if (checkoutForm.get('firstName')?.invalid && (checkoutForm.get('firstName')?.dirty || checkoutForm.get('firstName')?.touched)) {
+            <span class="e_Checkout__error">First name is required (min 2 chars).</span>
+          }
+        </div>
+        <div class="e_Checkout__field">
+          <label class="e_Checkout__label">Last Name</label>
+          <input type="text" formControlName="lastName" class="e_Checkout__input" placeholder="Doe" />
+          @if (checkoutForm.get('lastName')?.invalid && (checkoutForm.get('lastName')?.dirty || checkoutForm.get('lastName')?.touched)) {
+            <span class="e_Checkout__error">Last name is required (min 2 chars).</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <hr class="e_Checkout__divider" />
+
+    <!-- Store Pickup -->
+    <div class="e_Checkout__section">
+      <h2 class="e_Checkout__subtitle">Store Pickup</h2>
+
+      @if (getSelectedStoreName()) {
+        <div class="e_Checkout__selectedStore">
+          <span class="e_Checkout__selectedStoreIcon">📍</span>
+          <strong>{{ getSelectedStoreName() }}</strong>
+        </div>
+      }
+
+      <div class="e_Checkout__field">
+        <ds-button variant="secondary" type="button" (btnClick)="openModal()">CHOOSE A STORE</ds-button>
+      </div>
+
+      <div class="e_Checkout__field">
+        <label class="e_Checkout__label">Store ID</label>
+        <input type="text" formControlName="storeId" class="e_Checkout__input" placeholder="Select a store above" />
+        @if (checkoutForm.get('storeId')?.pending) {
+          <span class="e_Checkout__hint">Verifying store…</span>
+        }
+        @if (checkoutForm.get('storeId')?.invalid && (checkoutForm.get('storeId')?.dirty || checkoutForm.get('storeId')?.touched) && !checkoutForm.get('storeId')?.pending) {
+          <span class="e_Checkout__error">
+            @if (checkoutForm.get('storeId')?.errors?.['required']) { A valid store is required. }
+            @if (checkoutForm.get('storeId')?.errors?.['invalidStore']) { Unknown store ID. Please choose from the list. }
+          </span>
+        }
+      </div>
+    </div>
+
+    <hr class="e_Checkout__divider" />
+
+    <!-- Extra Pickup Persons -->
+    <div class="e_Checkout__section">
+      <div class="e_Checkout__sectionHeader">
+        <h2 class="e_Checkout__subtitle">Additional Pickup Persons</h2>
+        <ds-button variant="secondary" type="button" (btnClick)="addExtraPickup()">+ ADD PERSON</ds-button>
+      </div>
+
+      <div formArrayName="extraPickups" class="e_Checkout__extraList">
+        @for (control of extraPickups.controls; track $index) {
+          <div class="e_Checkout__extraRow">
+            <div class="e_Checkout__field">
+              <label class="e_Checkout__label">Full Name</label>
+              <input type="text" [formControlName]="$index" class="e_Checkout__input" placeholder="Guest full name" />
+              @if (control.invalid && (control.dirty || control.touched)) {
+                <span class="e_Checkout__error">Name is required (min 2 chars).</span>
+              }
+            </div>
+            <button type="button" class="e_Checkout__removeExtraBtn" (click)="removeExtraPickup($index)">✕</button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <hr class="e_Checkout__divider" />
+
+    <!-- Actions -->
+    <div class="e_Checkout__actions">
+      <button type="button" class="e_Checkout__backBtn" (click)="$event.preventDefault();" [routerLink]="['/mfe_checkout']">
+        ← Back to Cart
+      </button>
+      <ds-button
+        [disabled]="checkoutForm.invalid || isPlacingOrder()"
+        type="submit"
+      >
+        {{ isPlacingOrder() ? 'PLACING ORDER…' : 'PLACE ORDER' }}
+      </ds-button>
+    </div>
+  </form>
+</section>
+
+<!-- Store Modal -->
+@if (isModalOpen()) {
+  <div class="ts-modal-overlay" (click)="closeModal()">
+    <div class="ts-modal" (click)="$event.stopPropagation()">
+      <h3 class="ts-modal__title">Choose a Store</h3>
+      <div class="ts-modal__list">
+        @for (store of stores(); track store.id) {
+          <button type="button" class="ts-modal__item" (click)="selectStore(store.id)">
+            <img [src]="store.image" [alt]="store.name" class="ts-modal__itemImage" />
+            <div class="ts-modal__itemInfo">
+              <h4>{{ store.name }}</h4>
+              <p>{{ store.address }} · {{ store.city }}</p>
+            </div>
+          </button>
+        }
+      </div>
+      <button type="button" class="ts-modal__close" (click)="closeModal()">✕ Close</button>
+    </div>
+  </div>
+}
