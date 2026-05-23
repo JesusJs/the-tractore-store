@@ -1,7 +1,22 @@
 import { Route } from '@angular/router';
-import { RemoteEntryComponent } from './entry.component';
+import { cartNotEmptyGuard, checkoutFormGuard } from './checkout.guards';
 
 export const remoteRoutes: Route[] = [
-  { path: '', component: RemoteEntryComponent },
-  { path: 'thanks', component: RemoteEntryComponent },
+  {
+    path: '',
+    loadComponent: () =>
+      import('../../page/cart/cart.component').then((m) => m.CartPageComponent),
+  },
+  {
+    path: 'checkout',
+    loadComponent: () =>
+      import('../../page/checkout/checkout.component').then((m) => m.CheckoutPageComponent),
+    canActivate: [cartNotEmptyGuard],
+    canDeactivate: [checkoutFormGuard],
+  },
+  {
+    path: 'thanks',
+    loadComponent: () =>
+      import('../../page/thanks/thanks.component').then((m) => m.ThanksPageComponent),
+  },
 ];
