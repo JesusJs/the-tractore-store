@@ -1,23 +1,41 @@
 <section class="e_CategoryPage">
-  <!-- Cabecera de Categoría y Filtros -->
+  <!-- Cabecera y Filtros -->
   <header class="e_CategoryPage__header">
     <h1 class="e_CategoryPage__title">{{ pageTitle() }}</h1>
     <div class="e_CategoryPage__filter">
       <span>Filter:</span>
-      <button class="filter-btn" [class.is-active]="selectedFilter() === 'all'" (click)="setFilter('all')">All</button>
-      <button class="filter-btn" [class.is-active]="selectedFilter() === 'classics'" (click)="setFilter('classics')">Classics</button>
-      <button class="filter-btn" [class.is-active]="selectedFilter() === 'autonomous'" (click)="setFilter('autonomous')">Autonomous</button>
+      @for (f of availableFilters(); track f) {
+        <button
+          class="filter-btn"
+          [class.is-active]="selectedFilter() === f"
+          (click)="setFilter(f)"
+        >{{ f | titlecase }}</button>
+      }
     </div>
   </header>
 
-  <!-- Cuadrícula de productos -->
-  <main class="e_CategoryPage__grid">
-    @for (product of filteredProducts(); track product.id) {
-      <article class="e_ProductCard" [routerLink]="['/mfe_decide']" [queryParams]="{ name: product.name, price: product.price, image: product.image }">
-        <img [src]="product.image" [alt]="product.name" class="e_ProductCard__image">
-        <h3 class="e_ProductCard__name">{{ product.name }}</h3>
-        <p class="e_ProductCard__price">{{ product.price }}</p>
-      </article>
-    }
-  </main>
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="e_CategoryPage__loading">
+      <div class="e_CategoryPage__spinner"></div>
+    </div>
+  } @else {
+    <!-- Cuadrícula de productos con ds-product-card -->
+    <main class="e_CategoryPage__grid">
+      @for (product of products(); track product.id) {
+        <ds-product-card
+          [id]="product.id"
+          [title]="product.name"
+          [brand]="product.brand"
+          [price]="product.price"
+          [image]="product.image"
+          [variants]="product.variants"
+          [description]="product.description"
+          (addToCart)="onAddToCart($event)"
+          [routerLink]="['/mfe_decide']"
+          [queryParams]="{ id: product.id }"
+        />
+      }
+    </main>
+  }
 </section>
