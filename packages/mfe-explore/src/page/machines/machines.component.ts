@@ -1,18 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, signal, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
-export interface Tractor {
-  id: string;
-  name: string;
-  price: string;
-  image: string;
-  type: 'classics' | 'autonomous';
-}
+import { CatalogService, CartService } from '@the-tractor-store/shared-catalog';
+import { Tractor } from '@the-tractor-store/shared-catalog';
+import { ProductCardComponent } from '@the-tractor-store/ts-design-system';
 
 @Component({
   selector: 'app-machines',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ProductCardComponent],
   templateUrl: './machines.component.html',
   styleUrl: './machines.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,46 +15,55 @@ export interface Tractor {
 export class MachinesComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private catalogService = inject(CatalogService);
+  private cartService = inject(CartService);
 
-  public readonly allProducts: Tractor[] = [
-    { id: 'tx-001', name: 'Sapphire Sunworker 460R', price: '8500,00 Ø', image: 'placeholder_tractor.jpg', type: 'autonomous' },
-    { id: 'tx-002', name: 'Field Pioneer', price: '4500,00 Ø', image: 'placeholder_tractor.jpg', type: 'classics' },
-    { id: 'tx-003', name: 'SmartFarm Titan', price: '4000,00 Ø', image: 'placeholder_tractor.jpg', type: 'autonomous' }
-  ];
+  public products = signal<Tractor[]>([]);
+  public availableFilters = signal<string[]>(['all', 'classics', 'autonomous']);
+  public selectedFilter = signal<string>('all');
+  public isLoading = signal(true);
 
-  public selectedFilter = signal<'all' | 'classics' | 'autonomous'>('all');
-
-  public readonly filteredProducts = computed(() => {
-    const filter = this.selectedFilter();
-    if (filter === 'all') {
-      return this.allProducts;
-    }
-    return this.allProducts.filter(p => p.type === filter);
-  });
-
-  public readonly pageTitle = computed(() => {
-    const filter = this.selectedFilter();
-    if (filter === 'all') return 'All Tractors';
-    if (filter === 'classics') return 'Classic Tractors';
-    return 'Autonomous Tractors';
-  });
+  public readonly pageTitle = () => {
+    const f = this.selectedFilter();
+    if (f === 'classics') return 'Classic Tractors';
+    if (f === 'autonomous') return 'Autonomous Tractors';
+    return 'All Tractors';
+  };
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      const filter = params['filter'];
-      if (filter === 'classics' || filter === 'autonomous') {
-        this.selectedFilter.set(filter);
-      } else {
-        this.selectedFilter.set('all');
-      }
+      const filter = params['filter'] || 'all';
+      this.selectedFilter.set(filter);
+      this.loadCategory(filter);
+    });
+
+    // Also load the cart so the guard works
+    this.cartService.loadCart().subscribe();
+  }
+
+  private loadCategory(filter: string): void {
+    this.isLoading.set(true);
+    this.catalogService.getCategory(filter).subscribe({
+      next: (data) => {
+        this.products.set(data.products);
+        this.availableFilters.set(data.availableFilters);
+        this.isLoading.set(false);
+      },
+      error: () => this.isLoading.set(false),
     });
   }
 
-  public setFilter(filter: 'all' | 'classics' | 'autonomous'): void {
+  public setFilter(filter: string): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { filter },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  public onAddToCart(event: { id: string; variant: string }): void {
+    this.cartService.addToCart(event.variant).subscribe({
+      error: (err) => console.error('Failed to add to cart', err),
     });
   }
 }
