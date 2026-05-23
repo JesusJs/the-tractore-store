@@ -1,27 +1,29 @@
 <section class="e_OurStores">
-  <h2 class="e_OurStores__title">Our Stores</h2>
+  <h1 class="e_OurStores__title">Our Stores</h1>
   <p class="e_OurStores__description">
-    Want to see our products in person? Visit one of our stores to see our products up close and talk to our experts. We have stores in the following locations:
+    Want to see our tractors in person? Visit one of our stores to talk to our experts and see the machines up close.
   </p>
 
-  <div class="e_OurStores__grid">
-    <article class="e_OurStores__card">
-      <img src="https://via.placeholder.com/300x200" alt="Aurora Flagship Store" class="e_OurStores__image">
-      <div class="e_OurStores__info">
-        <h3 class="e_OurStores__name">Aurora Flagship Store</h3>
-        <p class="e_OurStores__address">Astronaut Way 1</p>
-        <p class="e_OurStores__city">Arlington</p>
-      </div>
-    </article>
-
-    <article class="e_OurStores__card">
-      <img src="https://via.placeholder.com/300x200" alt="Big Micro Machines" class="e_OurStores__image">
-      <div class="e_OurStores__info">
-        <h3 class="e_OurStores__name">Big Micro Machines</h3>
-        <p class="e_OurStores__address">Broadway 2</p>
-        <p class="e_OurStores__city">Burlington</p>
-      </div>
-    </article>
-    
+  @if (isLoading()) {
+    <div class="e_OurStores__loading">
+      <div class="e_OurStores__spinner"></div>
     </div>
+  } @else {
+    <div class="e_OurStores__grid">
+      @for (store of stores(); track store.id) {
+        <article class="e_OurStores__card">
+          <img [src]="store.image" [alt]="store.name" class="e_OurStores__image" />
+          <div class="e_OurStores__info">
+            <h3 class="e_OurStores__name">{{ store.name }}</h3>
+            <p class="e_OurStores__address">{{ store.address }}</p>
+            <p class="e_OurStores__city">
+              <span class="e_OurStores__cityIcon">📍</span>
+              {{ store.city }}
+            </p>
+            <p class="e_OurStores__storeId">Store ID: <code>{{ store.id }}</code></p>
+          </div>
+        </article>
+      }
+    </div>
+  }
 </section>
