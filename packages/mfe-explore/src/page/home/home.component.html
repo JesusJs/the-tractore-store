@@ -1,14 +1,21 @@
 
     <main class="e_HomePage">
-        <div class="grid">
-            <a class="e_HomePage__categoryLink" [routerLink]="['/mfe_explore/machines']" [queryParams]="{ filter: 'classics' }" data-title="Classic Tractors">
-                <img [src]="classicTractorImage" 
-                     alt="Classic Tractors">
-            </a>
-
-            <a class="e_HomePage__categoryLink" [routerLink]="['/mfe_explore/machines']" [queryParams]="{ filter: 'autonomous' }" data-title="Autonomous Tractors">
-                <img [src]="autonomousTractorImage" 
-                     alt="Autonomous Tractors">
-            </a>
+      @if (isLoading()) {
+        <div class="e_HomePage__loading">
+          <div class="e_HomePage__spinner"></div>
         </div>
+      } @else {
+        <div class="grid">
+          @for (teaser of teasers(); track teaser.id) {
+            <a
+              class="e_HomePage__categoryLink"
+              [attr.data-title]="teaser.title"
+              [routerLink]="['/mfe_explore/machines']"
+              [queryParams]="{ filter: teaser.filter }"
+            >
+              <img [src]="teaser.image" [alt]="teaser.title" />
+            </a>
+          }
+        </div>
+      }
     </main>
