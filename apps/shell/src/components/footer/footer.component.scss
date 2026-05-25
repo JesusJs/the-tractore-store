@@ -1,0 +1,72 @@
+.footer {
+  padding: 2rem 1rem;
+  border-top: 1px solid #eaeaea; // Línea superior sutil
+  background-color: #ffffff;
+  color: #333;
+  font-size: 0.85rem;
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column; // Se apila en móviles
+    }
+  }
+
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  a {
+    color: #ff5e5e; // Ajusta al rojo de tu logo "neuland"
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .techstack-title {
+    margin: 0;
+    color: #ff5e5e;
+    text-transform: lowercase;
+    font-size: 0.9rem;
+  }
+
+  .techstack-list {
+    max-width: 300px;
+    line-height: 1.4;
+  }
+
+  .brand-wrapper {
+    display: flex;
+    align-items: flex-start; // Alinea arriba
+    gap: 1rem; // Espacio entre logo y texto
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem; // Ajusta el espacio entre los dos párrafos del logo
+
+    p {
+      margin: 0;
+    }
+
+    // Quitamos márgenes de los p para que no se separen de más
+  }
+
+  .footer-logo {
+    width: 30px; // Un poco más pequeño para que no domine sobre el texto
+    height: auto;
+    margin-top: 2px; // Ajuste fino para centrar visualmente con el texto
+    display: block;
+  }
+}
