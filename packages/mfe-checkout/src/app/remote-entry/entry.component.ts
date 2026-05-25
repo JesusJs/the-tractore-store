@@ -17,6 +17,7 @@ import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 
 @Component({
+  standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule, ButtonComponent],
   selector: 'app-mfe_checkout-entry',
   templateUrl: 'entry.component.html',
