@@ -14,7 +14,7 @@ import {
 import { CartService, CatalogService, StoreLocation } from '@the-tractor-store/shared-catalog';
 import { ButtonComponent } from '@the-tractor-store/ts-design-system';
 import { Observable, of } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { delay, map, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-checkout',
@@ -44,6 +44,7 @@ export class CheckoutPageComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.cartService.loadCart().subscribe();
     this.catalogService.getStores().subscribe({
       next: (data) => this.stores.set(data),
     });
@@ -112,6 +113,12 @@ export class CheckoutPageComponent implements OnInit {
         storeId: storeId!,
         extraPickups: (extraPickups as string[]) ?? [],
       })
+      .pipe(
+        finalize(() => {
+          this.isPlacingOrder.set(false);
+          console.log('Order flow finished');
+        })
+      )
       .subscribe({
         next: (receipt) => {
           this.checkoutForm.markAsPristine();
@@ -119,7 +126,9 @@ export class CheckoutPageComponent implements OnInit {
             queryParams: { orderId: receipt.id },
           });
         },
-        error: () => this.isPlacingOrder.set(false),
+        error: (err) => {
+          console.error('Error placing order:', err);
+        },
       });
   }
 }
