@@ -21,7 +21,7 @@
     </div>
   } @else {
     <!-- Cuadrícula de productos con ds-product-card -->
-    <main class="e_CategoryPage__grid">
+    <div class="e_CategoryPage__grid">
       @for (product of products(); track product.id) {
         <ds-product-card
           [id]="product.id"
@@ -36,6 +36,7 @@
           [queryParams]="{ id: product.id }"
         />
       }
-    </main>
+    </div>
+
   }
 </section>
