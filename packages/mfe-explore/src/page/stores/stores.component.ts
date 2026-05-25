@@ -4,6 +4,7 @@ import { CatalogService, StoreLocation } from '@the-tractor-store/shared-catalog
 
 @Component({
   selector: 'app-stores',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './stores.component.html',
   styleUrl: './stores.component.scss',
