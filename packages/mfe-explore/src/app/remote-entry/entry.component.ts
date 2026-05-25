@@ -16,6 +16,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
   selector: 'app-mfe_explore-entry',
+  standalone: true,
   imports: [CommonModule, RecomendationsComponent,
      HomeComponent, FooterComponent],
   templateUrl: 'entry.component.html',

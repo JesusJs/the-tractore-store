@@ -5,6 +5,7 @@ import { CatalogService, CategoryTeaser } from '@the-tractor-store/shared-catalo
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

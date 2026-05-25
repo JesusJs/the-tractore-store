@@ -7,6 +7,7 @@ import { ProductCardComponent } from '@the-tractor-store/ts-design-system';
 
 @Component({
   selector: 'app-machines',
+  standalone: true,
   imports: [CommonModule, RouterLink, ProductCardComponent],
   templateUrl: './machines.component.html',
   styleUrl: './machines.component.scss',
