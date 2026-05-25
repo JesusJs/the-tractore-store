@@ -12,5 +12,6 @@ import { CommonModule } from '@angular/common';
 export class ButtonComponent {
   disabled = input<boolean>(false);
   variant = input<string>('primary');
+  type = input<'button' | 'submit' | 'reset'>('button');
   btnClick = output<MouseEvent>();
 }

@@ -45,8 +45,20 @@
               [class.d_ProductPage__stock--out]="isOutOfStock"
             >{{ stockLabel }}</span>
           </div>
+
+          <div class="d_ProductPage__quantitySelector" style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+            <button 
+              style="padding: 5px 15px; border: 1px solid #ccc; background: #fff; cursor: pointer;"
+              (click)="decreaseQuantity()" 
+              [disabled]="quantity() <= 1">-</button>
+            <span style="font-weight: bold; min-width: 30px; text-align: center;">{{ quantity() }}</span>
+            <button 
+              style="padding: 5px 15px; border: 1px solid #ccc; background: #fff; cursor: pointer;"
+              (click)="increaseQuantity()">+</button>
+          </div>
+
           <ds-button
-            [disabled]="isOutOfStock || isAddingToCart() || !selectedVariant()"
+            [disabled]="isAddingToCart() || !selectedVariant()"
             (btnClick)="addToCart()"
           >
             {{ isAddingToCart() ? 'ADDING…' : 'ADD TO BASKET' }}

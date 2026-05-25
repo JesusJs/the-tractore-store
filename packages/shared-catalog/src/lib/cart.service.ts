@@ -1,51 +1,10 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { tap, map, switchMap, catchError } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { CART_API_URL, ORDER_API_URL } from './tokens';
-import { Cart, CartItem } from '../models/catalog.models';
-
-export interface OrderPayloadItem {
-  productId: string;
-  variantId: string;
-  productName: string;
-  variantName: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-export interface OrderPayload {
-  firstName: string;
-  lastName: string;
-  storeId: string;
-  extraPickups?: string[];
-  items: OrderPayloadItem[];
-}
-
-export interface OrderReceiptItem {
-  productId: string;
-  variantId: string;
-  productName: string;
-  variantName: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-export interface OrderReceipt {
-  id: string;
-  firstName: string;
-  lastName: string;
-  storeId: string;
-  extraPickups: string[];
-  items: OrderReceiptItem[];
-  subTotal: number;
-  tax: number;
-  total: number;
-  placedAt: string;
-  status: string;
-}
+import { Cart, CartItem, OrderPayload, OrderReceipt } from '../models/catalog.models';
+import { CatalogService } from './catalog.service';
 
 /** Options applied to every cross-origin request so the browser
  *  forwards the `tractor_session` HttpOnly cookie automatically. */
@@ -58,6 +17,7 @@ export class CartService {
   private http = inject(HttpClient);
   private cartUrl = inject(CART_API_URL);
   private orderUrl = inject(ORDER_API_URL);
+  private catalogService = inject(CatalogService);
 
   private _cart = signal<Cart>({ items: [], totalItems: 0, subTotal: 0, tax: 0, total: 0 });
 
@@ -65,24 +25,106 @@ export class CartService {
 
   public readonly cartCount = computed(() => this._cart().totalItems);
 
+  private hydrateCart(cart: Cart): Observable<Cart> {
+    if (!cart.items || cart.items.length === 0) {
+      cart.subTotal = 0;
+      cart.tax = 0;
+      cart.total = 0;
+      cart.totalItems = 0;
+      return of(cart);
+    }
+    return this.catalogService.getCategory('all').pipe(
+      map(data => {
+        const allProducts = data.products;
+        let subTotal = 0;
+        let totalItems = 0;
+        
+        cart.items = cart.items.map(item => {
+          const sku = item.variantId || (item as any).sku;
+          const product = allProducts.find(p => p.id === sku || (p.variants && p.variants.includes(sku)));
+          
+          item.variantId = sku;
+          item.productId = product?.id || sku;
+          item.productName = product?.name || 'Unknown Tractor';
+          item.variantName = product?.variants && product.variants.includes(sku) ? sku : '';
+          item.price = product?.price || 0;
+          item.image = product?.image || '';
+          
+          subTotal += item.price * item.quantity;
+          totalItems += item.quantity;
+          return item;
+        });
+
+        cart.subTotal = subTotal;
+        cart.tax = subTotal * 0.21;
+        cart.total = cart.subTotal + cart.tax;
+        cart.totalItems = totalItems;
+        return cart;
+      })
+    );
+  }
+
+  private getLocalCart(): Cart {
+    const saved = localStorage.getItem('tractor_cart');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // ignore
+      }
+    }
+    return { items: [], totalItems: 0, subTotal: 0, tax: 0, total: 0 };
+  }
+
+  private saveLocalCart(cart: Cart) {
+    localStorage.setItem('tractor_cart', JSON.stringify(cart));
+  }
+
   /** Load the cart from the server and refresh the signal */
   loadCart(): Observable<Cart> {
-    return this.http.get<Cart>(this.cartUrl, CREDS).pipe(
+    // Call the backend to ensure the tractor_session cookie is set
+    return this.http.get(this.cartUrl, { ...CREDS, responseType: 'text' }).pipe(
+      catchError(() => of(null)),
+      switchMap(() => of(this.getLocalCart())),
+      switchMap(cart => this.hydrateCart(cart)),
       tap(cart => this._cart.set(cart))
     );
   }
 
   /** Add a variant SKU to the cart */
   addToCart(sku: string): Observable<Cart> {
-    return this.http.post<Cart>(`${this.cartUrl}/items`, { sku }, CREDS).pipe(
-      tap(cart => this._cart.set(cart))
+    const cart = this.getLocalCart();
+    const existing = cart.items.find(i => i.variantId === sku || (i as any).sku === sku);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.items.push({
+        variantId: sku,
+        quantity: 1,
+        productId: '',
+        productName: '',
+        variantName: sku,
+        price: 0,
+        image: ''
+      });
+    }
+    this.saveLocalCart(cart);
+
+    return of(cart).pipe(
+      switchMap(c => this.hydrateCart(c)),
+      tap(c => this._cart.set(c))
     );
   }
 
   /** Remove a variant SKU from the cart */
   removeFromCart(sku: string): Observable<Cart> {
-    return this.http.delete<Cart>(`${this.cartUrl}/items/${sku}`, CREDS).pipe(
-      tap(cart => this._cart.set(cart))
+    const cart = this.getLocalCart();
+    cart.items = cart.items.filter(i => i.variantId !== sku && (i as any).sku !== sku);
+    this.saveLocalCart(cart);
+
+    return of(cart).pipe(
+      switchMap(c => this.hydrateCart(c)),
+      tap(c => this._cart.set(c))
     );
   }
 
@@ -95,11 +137,17 @@ export class CartService {
   placeOrder(payload: Omit<OrderPayload, 'items'>): Observable<OrderReceipt> {
     const cartItems = this._cart().items;
 
-    const fullPayload: OrderPayload = {
+    const extraPickupsVal = payload.extraPickups;
+    const finalExtraPickups = Array.isArray(extraPickupsVal) 
+      ? (extraPickupsVal.length > 0 ? extraPickupsVal.join(', ') : undefined)
+      : extraPickupsVal;
+
+    const fullPayload: any = {
       ...payload,
+      extraPickups: finalExtraPickups,
       items: cartItems.map(item => ({
         productId:   item.productId,
-        variantId:   item.variantId,
+        variantId:   item.variantName === '' ? '' : item.variantId,
         productName: item.productName,
         variantName: item.variantName,
         price:       item.price,
@@ -109,7 +157,11 @@ export class CartService {
     };
 
     return this.http.post<OrderReceipt>(this.orderUrl, fullPayload, CREDS).pipe(
-      tap(() => this._cart.set({ items: [], totalItems: 0, subTotal: 0, tax: 0, total: 0 }))
+      tap(() => {
+        const empty = { items: [], totalItems: 0, subTotal: 0, tax: 0, total: 0 };
+        this.saveLocalCart(empty);
+        this._cart.set(empty);
+      })
     );
   }
 
@@ -120,6 +172,8 @@ export class CartService {
 
   /** Legacy helper kept for guard compatibility */
   clearCart(): void {
-    this._cart.set({ items: [], totalItems: 0, subTotal: 0, tax: 0, total: 0 });
+    const empty = { items: [], totalItems: 0, subTotal: 0, tax: 0, total: 0 };
+    this.saveLocalCart(empty);
+    this._cart.set(empty);
   }
 }

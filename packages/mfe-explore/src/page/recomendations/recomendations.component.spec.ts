@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RecomendationsComponent } from './recomendations.component';
 
@@ -8,6 +10,10 @@ describe('RecomendationsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RecomendationsComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RecomendationsComponent);

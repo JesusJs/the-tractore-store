@@ -50,7 +50,7 @@ export class CartPageComponent implements OnInit {
   }
 
   public continueShopping(): void {
-    this.router.navigate(['/mfe_explore']);
+    this.router.navigate(['/mfe_explore/machines']);
   }
 
   public formatPrice(price: number): string {

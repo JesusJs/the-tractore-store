@@ -24,13 +24,13 @@
             </div>
             <div class="e_Cart__itemActions">
               <span class="e_Cart__itemPrice">{{ formatPrice(item.price * item.quantity) }}</span>
-              <button
-                class="e_Cart__removeBtn"
+              <ds-button
+                variant="accent"
                 [disabled]="isRemoving(item.variantId)"
-                (click)="removeItem(item.variantId)"
+                (btnClick)="removeItem(item.variantId)"
               >
                 {{ isRemoving(item.variantId) ? '…' : '✕' }}
-              </button>
+              </ds-button>
             </div>
           </article>
         }
@@ -52,7 +52,7 @@
           <span>{{ formatPrice(cartService.cart().total) }}</span>
         </div>
         <ds-button (btnClick)="goToCheckout()">PROCEED TO CHECKOUT</ds-button>
-        <button class="e_Cart__backBtn" (click)="continueShopping()">← Continue Shopping</button>
+        <ds-button variant="secondary" (btnClick)="continueShopping()">← Continue Shopping</ds-button>
       </aside>
     </div>
   }

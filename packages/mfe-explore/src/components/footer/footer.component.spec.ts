@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FooterComponent } from './footer.component';
 
@@ -8,6 +10,10 @@ describe('FooterComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FooterComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(FooterComponent);

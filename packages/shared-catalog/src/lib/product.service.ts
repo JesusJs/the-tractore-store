@@ -4,45 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CATALOG_API_URL, INVENTORY_API_URL } from './tokens';
 
-export interface ProductDetail {
-  id: string;
-  name: string;
-  brand: string;
-  price: number;
-  image: string;
-  description: string;
-  variants: string[];
-  highlights: string[];
-}
-
-export interface Recommendation {
-  id: string;
-  name: string;
-  price: number;
-  image: string;
-  sku: string;
-}
-
-export interface InventoryStatus {
-  sku: string;
-  stock: number;
-}
-
-/**
- * Shape the backend returns for both products and recommendations.
- * It's the same ProductItemDto in both cases.
- */
-interface ProductItemDto {
-  id: string;
-  name: string;
-  brand: string;
-  price: number;
-  image: string;
-  variants: string[];   // array of SKU strings
-  description: string;
-  enginePower?: string;
-  stock: number;
-}
+import { ProductDetail, Recommendation, InventoryStatus, ProductItemDto } from '../models/catalog.models';
 
 const CREDS = { withCredentials: true };
 

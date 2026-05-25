@@ -51,3 +51,109 @@ export interface Tractor {
   enginePower?: string; // (Opcional) Potencia del motor (ej: '120 HP')
   stock?: number;       // (Opcional) Cantidad de unidades disponibles en inventario
 }
+
+// Interfaces from cart.service.ts
+export interface OrderPayloadItem {
+  productId: string;
+  variantId: string;
+  productName: string;
+  variantName: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+export interface OrderPayload {
+  firstName: string;
+  lastName: string;
+  storeId: string;
+  extraPickups?: string[];
+  items: OrderPayloadItem[];
+}
+
+export interface OrderReceiptItem {
+  productId: string;
+  variantId: string;
+  productName: string;
+  variantName: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+export interface OrderReceipt {
+  id: string;
+  firstName: string;
+  lastName: string;
+  storeId: string;
+  extraPickups: string[];
+  items: OrderReceiptItem[];
+  subTotal: number;
+  tax: number;
+  total: number;
+  placedAt: string;
+  status: string;
+}
+
+// Interfaces from catalog.service.ts
+export interface CategoryTeaser {
+  id: string;
+  title: string;
+  image: string;
+  filter: string;
+}
+
+export interface HomeData {
+  teasers: CategoryTeaser[];
+}
+
+export interface CategoryData {
+  category: string;
+  products: Tractor[];
+  availableFilters: string[];
+}
+
+export interface StoreLocation {
+  id: string;
+  name: string;
+  address: string;
+  city: string;
+  image: string;
+}
+
+// Interfaces from product.service.ts
+export interface ProductDetail {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  image: string;
+  description: string;
+  variants: string[];
+  highlights: string[];
+}
+
+export interface Recommendation {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  sku: string;
+}
+
+export interface InventoryStatus {
+  sku: string;
+  stock: number;
+}
+
+export interface ProductItemDto {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  image: string;
+  variants: string[];
+  description: string;
+  enginePower?: string;
+  stock: number;
+}

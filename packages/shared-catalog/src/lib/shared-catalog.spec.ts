@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { sharedCatalog } from './shared-catalog';
 
 describe('sharedCatalog', () => {

@@ -1,7 +1,7 @@
 import { Component, signal, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {
   CartService,
@@ -35,6 +35,7 @@ export class RemoteEntryComponent implements OnInit, OnDestroy {
   public isLoadingInventory = signal(false);
   public isAddingToCart = signal(false);
   public addedToCart = signal(false);
+  public quantity = signal<number>(1);
 
   ngOnInit(): void {
     this.route.data
@@ -42,12 +43,14 @@ export class RemoteEntryComponent implements OnInit, OnDestroy {
       .subscribe(({ resolvedProduct }) => {
         if (resolvedProduct) {
           this.product.set(resolvedProduct);
-          // Pre-select first variant
-          const firstVariant = resolvedProduct.variants?.[0] ?? '';
+          // Pre-select first variant or use product ID as SKU
+          const firstVariant = resolvedProduct.variants?.[0] ?? resolvedProduct.id;
           this.selectedVariant.set(firstVariant);
           if (firstVariant) {
             this.loadInventory(firstVariant);
           }
+          this.quantity.set(1);
+          this.addedToCart.set(false);
           // Load recommendations
           this.loadRecommendations(resolvedProduct.variants);
         }
@@ -63,6 +66,17 @@ export class RemoteEntryComponent implements OnInit, OnDestroy {
     this.selectedVariant.set(sku);
     this.loadInventory(sku);
     this.addedToCart.set(false);
+    this.quantity.set(1);
+  }
+
+  public increaseQuantity(): void {
+    this.quantity.update(q => q + 1);
+  }
+
+  public decreaseQuantity(): void {
+    if (this.quantity() > 1) {
+      this.quantity.update(q => q - 1);
+    }
   }
 
   private loadInventory(sku: string): void {
@@ -89,18 +103,29 @@ export class RemoteEntryComponent implements OnInit, OnDestroy {
 
   public addToCart(): void {
     const sku = this.selectedVariant();
-    if (!sku) return;
+    const qty = this.quantity();
+    if (!sku || qty < 1) return;
     this.isAddingToCart.set(true);
-    this.cartService.addToCart(sku)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.isAddingToCart.set(false);
-          this.addedToCart.set(true);
-          setTimeout(() => this.addedToCart.set(false), 3000);
-        },
-        error: () => this.isAddingToCart.set(false),
+
+    const requests = Array.from({ length: qty }).map(() => sku);
+
+    import('rxjs').then(({ from }) => {
+      import('rxjs/operators').then(({ concatMap, toArray }) => {
+        from(requests).pipe(
+          concatMap(s => this.cartService.addToCart(s)),
+          toArray(),
+          takeUntil(this.destroy$)
+        ).subscribe({
+          next: () => {
+            this.isAddingToCart.set(false);
+            this.addedToCart.set(true);
+            this.quantity.set(1);
+            setTimeout(() => this.addedToCart.set(false), 3000);
+          },
+          error: () => this.isAddingToCart.set(false),
+        });
       });
+    });
   }
 
   public get stockLabel(): string {

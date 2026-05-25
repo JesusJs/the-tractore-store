@@ -27,7 +27,9 @@ export class ProductCardComponent {
   // Output moderno con el nuevo generador output() de Angular 17.1+
   addToCart = output<{ id: string, variant: string }>();
 
-  onAddToCartClick(): void {
+  onAddToCartClick(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
     const currentVariant = this.selectedVariant();
     if (currentVariant) {
       this.addToCart.emit({

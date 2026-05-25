@@ -17,11 +17,11 @@
 
           <div class="e_CartPage__itemQty">{{ item.quantity }}</div>
           
-          <button class="e_CartPage__removeBtn" (click)="removeItem.emit(item.variantId)">
+          <ds-button variant="accent" (btnClick)="removeItem.emit(item.variantId)">
             <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M1 1L13 13M13 1L1 13" />
             </svg>
-          </button>
+          </ds-button>
           
           <div class="e_CartPage__itemPrice">${{ item.price * item.quantity | number:'1.0-0' }} USD</div>
         </div>
@@ -38,8 +38,8 @@
 
     <!-- Botones de acción -->
     <div class="e_CartPage__actions">
-      <button class="e_CartPage__actionBtn e_CartPage__actionBtn--continue" (click)="continueShoppingClick.emit()">CONTINUE SHOPPING</button>
-      <button class="e_CartPage__actionBtn e_CartPage__actionBtn--checkout" (click)="checkoutClick.emit()">CHECKOUT</button>
+      <ds-button variant="secondary" (btnClick)="continueShoppingClick.emit()">CONTINUE SHOPPING</ds-button>
+      <ds-button (btnClick)="checkoutClick.emit()">CHECKOUT</ds-button>
     </div>
   </div>
 </section>

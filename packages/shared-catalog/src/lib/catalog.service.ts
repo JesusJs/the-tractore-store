@@ -3,32 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CATALOG_API_URL } from './tokens';
-import { Tractor } from '../models/catalog.models';
-
-export interface CategoryTeaser {
-  id: string;
-  title: string;
-  image: string;
-  filter: string;
-}
-
-export interface HomeData {
-  teasers: CategoryTeaser[];
-}
-
-export interface CategoryData {
-  category: string;
-  products: Tractor[];
-  availableFilters: string[];
-}
-
-export interface StoreLocation {
-  id: string;
-  name: string;
-  address: string;
-  city: string;
-  image: string;
-}
+import { Tractor, CategoryTeaser, HomeData, CategoryData, StoreLocation } from '../models/catalog.models';
 
 /** Backend uses 'classic' (no 's'), frontend labels say 'classics'.
  *  Map at the service boundary so neither the backend nor the templates need to change. */
@@ -53,7 +28,27 @@ export class CatalogService {
    */
   getHome(): Observable<HomeData> {
     return this.http.get<CategoryTeaser[]>(`${this.baseUrl}/home`, CREDS).pipe(
-      map(teasers => ({ teasers }))
+      map(teasers => {
+        // Map filters and names
+        let mappedTeasers = teasers.map(t => {
+          const isClassic = t.filter.toLowerCase().includes('classic');
+          const isAutonomous = t.filter.toLowerCase().includes('autonomous');
+          return {
+            ...t,
+            title: isClassic ? 'Classic Tractors' : (isAutonomous ? 'Autonomous Tractors' : t.title),
+            filter: isClassic ? 'classics' : (isAutonomous ? 'autonomous' : t.filter)
+          };
+        });
+
+        // Sort so Classic Tractors comes first
+        mappedTeasers.sort((a, b) => {
+          if (a.filter === 'classics') return -1;
+          if (b.filter === 'classics') return 1;
+          return 0;
+        });
+
+        return { teasers: mappedTeasers };
+      })
     );
   }
 

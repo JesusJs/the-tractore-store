@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ButtonComponent } from './mini-cart.component';
+import { MiniCartComponent } from './mini-cart.component';
 
-describe('ButtonComponent', () => {
-  let component: ButtonComponent;
-  let fixture: ComponentFixture<ButtonComponent>;
+describe('MiniCartComponent', () => {
+  let component: MiniCartComponent;
+  let fixture: ComponentFixture<MiniCartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonComponent],
+      imports: [MiniCartComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ButtonComponent);
+    fixture = TestBed.createComponent(MiniCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -10,10 +10,12 @@ export interface MiniCartItem {
   image: string;
 }
 
+import { ButtonComponent } from '../button/button.component';
+
 @Component({
   selector: 'ds-mini-cart',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   templateUrl: './mini-cart.component.html',
   styleUrl: './mini-cart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

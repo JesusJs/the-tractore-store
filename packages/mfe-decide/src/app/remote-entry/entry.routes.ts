@@ -7,10 +7,12 @@ export const remoteRoutes: Route[] = [
     path: '',
     component: RemoteEntryComponent,
     resolve: { resolvedProduct: productResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
   {
     path: ':id',
     component: RemoteEntryComponent,
     resolve: { resolvedProduct: productResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
   },
 ];

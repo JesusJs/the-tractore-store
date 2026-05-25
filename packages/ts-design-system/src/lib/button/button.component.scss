@@ -29,12 +29,13 @@
 
   /* Primary variant — dark CTA */
   &--primary {
-    background-color: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    border-color: var(--btn-primary-border);
+    background-color: #333333;
+    color: #add8e6;
+    border-color: #555555;
+    letter-spacing: 0.25em;
 
     &:hover:not(:disabled) {
-      background-color: var(--btn-primary-bg-hover);
+      background-color: #222222;
       transform: translateY(-1px);
       box-shadow: var(--shadow-md);
     }

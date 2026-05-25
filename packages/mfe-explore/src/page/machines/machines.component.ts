@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CatalogService, CartService } from '@the-tractor-store/shared-catalog';
 import { Tractor } from '@the-tractor-store/shared-catalog';
-import { ProductCardComponent } from '@the-tractor-store/ts-design-system';
+import { ProductCardComponent, ButtonComponent } from '@the-tractor-store/ts-design-system';
 
 @Component({
   selector: 'app-machines',
   standalone: true,
-  imports: [CommonModule, RouterLink, ProductCardComponent],
+  imports: [CommonModule, RouterLink, ProductCardComponent, ButtonComponent],
   templateUrl: './machines.component.html',
   styleUrl: './machines.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

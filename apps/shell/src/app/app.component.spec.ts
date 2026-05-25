@@ -2,9 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { provideRouter, RouterModule } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA, signal, WritableSignal } from '@angular/core';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../../../../packages/mfe-explore/src/components/footer/footer.component';
-
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { HeaderComponent } from '../components/header/header.component';
+import { FooterComponent } from '../components/footer/footer.component';
+import { RecommendationsComponent } from '../components/recommendations/recommendations.component';
+import { ProductService } from '@the-tractor-store/shared-catalog';
+import { of } from 'rxjs';
 // Interface to allow type-safe checking of the prototype-injected properties/methods
 interface ExtendedAppComponent extends AppComponent {
   showBoundaries: WritableSignal<boolean>;
@@ -40,10 +44,17 @@ describe('AppComponent', () => {
       });
     }
 
+    const mockProductService = {
+      getRecommendations: jest.fn().mockReturnValue(of([]))
+    };
+
     TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [
         provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ProductService, useValue: mockProductService }
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
