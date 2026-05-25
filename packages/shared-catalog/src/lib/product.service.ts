@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CATALOG_API_URL, INVENTORY_API_URL } from './tokens';
 
 export interface ProductDetail {
@@ -27,6 +28,24 @@ export interface InventoryStatus {
   stock: number;
 }
 
+/**
+ * Shape the backend returns for both products and recommendations.
+ * It's the same ProductItemDto in both cases.
+ */
+interface ProductItemDto {
+  id: string;
+  name: string;
+  brand: string;
+  price: number;
+  image: string;
+  variants: string[];   // array of SKU strings
+  description: string;
+  enginePower?: string;
+  stock: number;
+}
+
+const CREDS = { withCredentials: true };
+
 @Injectable({
   providedIn: 'root',
 })
@@ -36,17 +55,31 @@ export class ProductService {
   private inventoryUrl = inject(INVENTORY_API_URL);
 
   getProduct(id: string): Observable<ProductDetail> {
-    return this.http.get<ProductDetail>(`${this.catalogUrl}/products/${id}`);
+    return this.http.get<ProductDetail>(`${this.catalogUrl}/products/${id}`, CREDS);
   }
 
+  /**
+   * Backend returns ProductItemDto[] for recommendations.
+   * Map to Recommendation shape: use first variant as the sku.
+   */
   getRecommendations(skus: string[]): Observable<Recommendation[]> {
-    const skuParam = skus.join(',');
-    return this.http.get<Recommendation[]>(
-      `${this.catalogUrl}/recommendations?skus=${skuParam}`
-    );
+    const skuParam = skus.length ? `?skus=${skus.join(',')}` : '';
+    return this.http
+      .get<ProductItemDto[]>(`${this.catalogUrl}/recommendations${skuParam}`, CREDS)
+      .pipe(
+        map(items =>
+          items.map(p => ({
+            id:    p.id,
+            name:  p.name,
+            price: p.price,
+            image: p.image,
+            sku:   p.variants[0] ?? p.id,
+          }))
+        )
+      );
   }
 
   getInventory(sku: string): Observable<InventoryStatus> {
-    return this.http.get<InventoryStatus>(`${this.inventoryUrl}/${sku}`);
+    return this.http.get<InventoryStatus>(`${this.inventoryUrl}/${sku}`, CREDS);
   }
 }
