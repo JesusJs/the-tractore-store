@@ -16,6 +16,7 @@ import {
 } from '@the-tractor-store/ts-design-system';
 
 @Component({
+  standalone: true,
   imports: [CommonModule, RouterLink, ButtonComponent, VariantOptionComponent],
   selector: 'app-mfe_decide-entry',
   templateUrl: 'entry.component.html',
