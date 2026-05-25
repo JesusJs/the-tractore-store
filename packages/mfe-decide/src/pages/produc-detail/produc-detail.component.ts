@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-produc-detail',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './produc-detail.component.html',
   styleUrl: './produc-detail.component.scss',
@@ -12,14 +13,6 @@ import { ActivatedRoute } from '@angular/router';
 export class ProducDetailComponent {
   productId: string | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
 
-  // ngOnInit() {
-  //   // Escuchamos los cambios en la ruta para obtener el :id
-  //   this.route.paramMap.subscribe(params => {
-  //     this.productId = params.get('id');
-  //     console.log('Cargando datos para el producto:', this.productId);
-  //     // Aquí llamarías a tu servicio para obtener los datos del tractor
-  //   });
-  // }
 }
