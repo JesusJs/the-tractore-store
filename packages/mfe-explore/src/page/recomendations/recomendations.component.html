@@ -1,28 +1,30 @@
 <section class="e_recommendation">
-<h2 class="e_recommendation__title">Recommendations</h2>
-<div class="e_recommendation__container">
-<!-- Tarjeta de Producto Recomendado -->
-<article class="e_recommendation__card" [routerLink]="['/mfe_decide']" [queryParams]="{ name: 'Premium Tractor Oil', price: '$24.99', image: 'placeholder_oil.jpg' }">
-<div class="e_recommendation__badge">Best Seller</div>
-<div class="e_recommendation__image-placeholder">
-<!-- Contenedor para imagen de producto -->
-<span>Product Image</span>
-</div>
-<div class="e_recommendation__content">
-<h3 class="e_recommendation__name">Premium Tractor Oil</h3>
-<p class="e_recommendation__price">$24.99</p>
-<button class="e_recommendation__add-btn">Add to Cart</button>
-</div>
-</article>
-<article class="e_recommendation__card" [routerLink]="['/mfe_decide']" [queryParams]="{ name: 'Heavy Duty Filters', price: '$15.50', image: 'placeholder_filters.jpg' }">
-<div class="e_recommendation__image-placeholder">
-<span>Product Image</span>
-</div>
-<div class="e_recommendation__content">
-<h3 class="e_recommendation__name">Heavy Duty Filters</h3>
-<p class="e_recommendation__price">$15.50</p>
-<button class="e_recommendation__add-btn">Add to Cart</button>
-</div>
-</article>
-</div>
+  <h2 class="e_recommendation__title">Recommendations</h2>
+  
+  @if (isLoading()) {
+    <div class="e_recommendation__loading">
+      <div class="e_recommendation__spinner"></div>
+    </div>
+  } @else {
+    <div class="e_recommendation__container">
+      @for (rec of recommendations(); track rec.id) {
+        <article class="e_recommendation__card" [routerLink]="['/mfe_decide']" [queryParams]="{ id: rec.id }">
+          <div class="e_recommendation__image-placeholder">
+            @if (rec.image) {
+              <img [src]="rec.image" [alt]="rec.name" class="e_recommendation__image" />
+            } @else {
+              <span>Product Image</span>
+            }
+          </div>
+          <div class="e_recommendation__content">
+            <h3 class="e_recommendation__name">{{ rec.name }}</h3>
+            <p class="e_recommendation__price">{{ formatPrice(rec.price) }}</p>
+            <button class="e_recommendation__add-btn">View Details</button>
+          </div>
+        </article>
+      } @empty {
+        <p class="e_recommendation__empty">No recommendations available.</p>
+      }
+    </div>
+  }
 </section>
