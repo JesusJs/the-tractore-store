@@ -5,6 +5,7 @@ import { VariantOptionComponent } from '../variant-option/variant-option.compone
 
 @Component({
   selector: 'ds-product-card',
+  standalone: true,
   imports: [CommonModule, ButtonComponent, VariantOptionComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
