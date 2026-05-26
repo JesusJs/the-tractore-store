@@ -2,6 +2,9 @@
 
 Bienvenido a la documentación oficial del frontend de **The Tractor Store**. Este proyecto nace de la necesidad de escalar una arquitectura compleja manteniendo una separación clara de dominios, implementada como un Monolito Modular que escala hacia Micro-Frontends (MFE).
 
+<img width="800" height="450" alt="2026-05-2514-20-12-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/3dfbed2e-e6e5-4f95-a7c8-38ef98b1ba17" />
+
+
 ## 1. Arquitectura y Stack Tecnológico
 El proyecto utiliza un monorepo Nx gestionado con pnpm, lo que nos permite compartir lógica, tipos y componentes de diseño entre aplicaciones independientes manteniendo una fuente única de verdad.
 
