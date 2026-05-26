@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../button/button.component';
-import { VariantOptionComponent } from '../variant-option/variant-option.component';
 
 @Component({
   selector: 'ds-product-card',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, VariantOptionComponent],
+  imports: [CommonModule],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
